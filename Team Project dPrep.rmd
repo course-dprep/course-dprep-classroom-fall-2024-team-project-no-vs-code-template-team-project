@@ -29,6 +29,9 @@ We found it to be interesting to see if specific attributes lead to higher ratin
 **Research Method**
 Regression analysis 
   - Converting the attributes into a new dummy variable, indicating whether it is present or not 
-  - Seeing what the presence of this dummies is on the ratings 
+  - Seeing what effect the presence of these dummies has on the ratings 
+  - We will use the column "Stars" as well as "Attributes" from the dataset to conduct this analysis. 
+  - The attributes for a business will be the independent variables (e.g., “Free Wi-Fi,” “Parking,” “Take out”), and the dependent variable would be the business rating (star ranking from 1-5) 
+  - By using a regression analysis we will be able to quantify the impact of each attribute on the rating.
 
 ## R Markdown
