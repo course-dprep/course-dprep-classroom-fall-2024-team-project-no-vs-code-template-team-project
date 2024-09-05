@@ -1,0 +1,22 @@
+---
+title: "Team Project oCDM"
+author: "Team 4"
+date: "2024-09-05"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Team Project Week 2
+
+This is the deliverable of the dPrep team project of week 2, group 4
+
+```{r}
+library(readr)
+data_business = read.csv('data/yelp_academic_dataset_business.csv')
+head(data_business)
+```
+
+## R Markdown
