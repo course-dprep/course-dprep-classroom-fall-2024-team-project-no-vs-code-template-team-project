@@ -18,5 +18,17 @@ library(readr)
 data_business = read.csv('data/yelp_academic_dataset_business.csv')
 head(data_business)
 ```
+# MOTIVATION
+Our team decided to use the dataset from Yelp. After downloading the data, and scanning through it, it was decided that the subset "yelp_academic_dataset_business.csv" was the most interesting to use for our research. 
+
+**Possible research question** 
+Which attributes lead to a higher rating for a business? 
+
+We found it to be interesting to see if specific attributes lead to higher ratings for the businesses. For example, if businesses that have “Free Wifi” obtain higher ratings than those that do not present this attribute. We want to study this 
+
+**Research Method**
+Regression analysis 
+  - Converting the attributes into a new dummy variable, indicating whether it is present or not 
+  - Seeing what the presence of this dummies is on the ratings 
 
 ## R Markdown
