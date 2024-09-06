@@ -41,6 +41,7 @@ We found it to be interesting to see if specific attributes lead to higher ratin
 
 __Research Method__
 Regression analysis:
+
 * Converting the attributes into a new dummy variable, indicating whether it is present or not 
 * Seeing what effect the presence of these dummies has on the ratings 
 * We will use the column "Stars" as well as "Attributes" from the dataset to conduct this analysis. 
