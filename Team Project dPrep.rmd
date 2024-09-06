@@ -5,10 +5,6 @@ date: "2024-09-05"
 output: pdf_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 ## Team Project Week 2
 
 This is the deliverable of the dPrep team project of week 2, group 4
