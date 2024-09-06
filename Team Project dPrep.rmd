@@ -40,10 +40,10 @@ Which business attributes lead to a higher star rating?
 We found it to be interesting to see if specific attributes lead to higher ratings for the businesses. For example, if businesses that have “Free Wifi” obtain higher ratings than those that do not present this attribute. We want to study this 
 
 __Research Method__
-Regression analysis 
-  - Converting the attributes into a new dummy variable, indicating whether it is present or not 
-  - Seeing what effect the presence of these dummies has on the ratings 
-  - We will use the column "Stars" as well as "Attributes" from the dataset to conduct this analysis. 
-  - The attributes for a business will be the independent variables (e.g., “Free Wi-Fi,” “Parking,” “Take out”), and the dependent variable would be the business rating (star ranking from 1-5) 
-  - By using a regression analysis we will be able to quantify the impact of each attribute on the rating.
+Regression analysis:
+* Converting the attributes into a new dummy variable, indicating whether it is present or not 
+* Seeing what effect the presence of these dummies has on the ratings 
+* We will use the column "Stars" as well as "Attributes" from the dataset to conduct this analysis. 
+* The attributes for a business will be the independent variables (e.g., “Free Wi-Fi,” “Parking,” “Take out”), and the dependent variable would be the business rating (star ranking from 1-5) 
+* By using a regression analysis we will be able to quantify the impact of each attribute on the rating.
 
