@@ -11,7 +11,7 @@ This research emphasizes the importance of using data to drive business decision
 ### Research Question
 *Which business attributes have the strongest impact on Yelp's consumer ratings within the United States of America?*
 
-## Research Method & Data
+## Data
 The data incorporated in this research is an open dataset provided by Yelp. This dataset includes various business variables, such as names, opening hours, addresses, star reviews, and attributes, of more than 150,000 recreational businesses in the United States of America. These businesses have a extremely broad range of categories, from massage saloons to casinos, and from cheese tastings to tattoo shops. This widespread of types of business allows us to analyse the influence of specific business attributes on consumer ratings on a very broad level. This means that our findings are implementable by a broad range of businesses and industries.
 
 The table below shows the variables within the dataset that are most important for our research, including a brief explanation of the variables:
@@ -19,6 +19,8 @@ The table below shows the variables within the dataset that are most important f
 - **ADD TABLE!**
 
 If there is a need to download the Yelp data set used for this research, the dataset can be downloaded [here](https://drive.google.com/drive/folders/1ioJVCsr5pJ5tAa2dPJ9yxIvL6rYmDSl1?usp=sharing) (yelp_academic_dataset_business.csv)
+
+## Research Method
 
 ## Relevence
 
