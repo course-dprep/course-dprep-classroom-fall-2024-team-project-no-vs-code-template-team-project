@@ -14,19 +14,15 @@ This research emphasizes the importance of using data to drive business decision
 ## Research Method & Data
 The data incorporated in this research is an open dataset provided by Yelp. This dataset includes various business variables, such as names, opening hours, addresses, star reviews, and attributes, of more than 150,000 recreational businesses in the United States of America. These businesses have a extremely broad range of categories, from massage saloons to casinos, and from cheese tastings to tattoo shops. This widespread of types of business allows us to analyse the influence of specific business attributes on consumer ratings on a very broad level. This means that our findings are implementable by a broad range of businesses and industries.
 
+The table below shows the variables within the dataset that are most important for our research, including a brief explanation of the variables:
 
-If there is a need to download the data set used for this research the following link can be used: 
-     Link to Drive with data sets: https://drive.google.com/drive/folders/1ioJVCsr5pJ5tAa2dPJ9yxIvL6rYmDSl1?usp=sharing 
+- **ADD TABLE!**
+
+If there is a need to download the Yelp data set used for this research, the dataset can be downloaded [here](https://drive.google.com/drive/folders/1ioJVCsr5pJ5tAa2dPJ9yxIvL6rYmDSl1?usp=sharing) (yelp_academic_dataset_business.csv)
 
 ## Relevence
 
 The findings of this research have several important implications for marketing strategies. First of all it could enhance customer experience by identifying key drivers of high ratings. Businesses could focus on improving the attributes that are found to have a high effect on consumer ratings, which will allow for more targeted improvements rather than broad inefficient changes. The insights of this research could also strengthen a company's branding and communication strategy. If specific attributes are found to be significantly important for higher consumer ratings, businesses can highlight these attributes in their promotional material to attract more consumers.
-
-The table below shows the variables within the dataset that are most important for our research, including a brief explanation of the variables:
-
-**ADD TABLE!**
-
-If there is a need to download the Yelp data set used for this research, the dataset can be downloaded [here](https://drive.google.com/drive/folders/1ioJVCsr5pJ5tAa2dPJ9yxIvL6rYmDSl1?usp=sharing) (yelp_academic_dataset_business.csv)
 
 ## Prediction Model
 
