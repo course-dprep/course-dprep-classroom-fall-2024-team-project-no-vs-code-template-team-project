@@ -6,4 +6,5 @@
 -----------------------------------------
 For business owners it is important to understand consumers wants and which business attributes will increase customer satisfaction.
 
-Link to Drive with data sets: https://drive.google.com/drive/folders/1ioJVCsr5pJ5tAa2dPJ9yxIvL6rYmDSl1?usp=sharing 
+If there is a need to dowload the data set used for this research the following link can be used: 
+     Link to Drive with data sets: https://drive.google.com/drive/folders/1ioJVCsr5pJ5tAa2dPJ9yxIvL6rYmDSl1?usp=sharing 
