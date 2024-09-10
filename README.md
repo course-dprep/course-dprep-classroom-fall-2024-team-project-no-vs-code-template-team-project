@@ -4,4 +4,4 @@
 ## Team Project dPrep - Team 4
 ### Tilburg University
 -----------------------------------------
-For business owners it is important to understand consumers want and which business attributes will increase customer satisfaction.
+For business owners it is important to understand consumers wants and which business attributes will increase customer satisfaction.
