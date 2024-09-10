@@ -1,5 +1,5 @@
 # Yelp - What influences consumer ratings?
-This projects examines the influence of specific business attributes on the consumer rating of businesses. We created a model to predict the relative impact of specific business attributes that are listed on Yelp on consumer ratings on Yelp of these business. 
+This projects examines the influence of specific business attributes on the consumer rating of businesses. The team created a model to predict the relative impact that specific business attributes listed on Yelp have on the consumer ratings of these business. 
 
 ## Research Motivation
 In the digital age, consumer ratings and online reviews have become one of the most influential sources of information in shaping consumer expectations and purchase decisions. This means that in the increasingly competitive digital market it is critical to understand which business attributes are drivers for positive and negative consumer ratings. In order to find these attributes that are drivers of consumer rating, we exploit a large open dataset created by Yelp.
