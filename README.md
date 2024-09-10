@@ -23,7 +23,7 @@ If there is a need to download the Yelp dataset used for this research, the data
 ## Research Method
 In order to analyse the influence of specific business attributes on consumer ratings on Yelp, we will conduct a linear regression model. Firstly, we will recode the variable 'attribute' into separate dummy variables for each attribute, indicating whether each business possesses that attributes or not (1 if possessed, 0 if not). Then we will design our linear regression by regressing the dependent variable 'stars' on all these previously created attribute dummy variables to find the relative impact of each attribute on the consumer ratings.
 
-## Relevence
+## Relevance
 The findings of this research have several important implications for marketing strategies. First of all it could enhance customer experience by identifying key drivers of high ratings. Businesses could focus on improving the attributes that are found to have a high effect on consumer ratings, which will allow for more targeted improvements rather than broad inefficient changes. The insights of this research could also strengthen a company's branding and communication strategy. If specific attributes are found to be significantly important for higher consumer ratings, businesses can highlight these attributes in their promotional material to attract more consumers.
 
 ## Prediction Model
