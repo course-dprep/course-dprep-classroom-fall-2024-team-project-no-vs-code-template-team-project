@@ -8,3 +8,15 @@ A multiple linear regression will be the applied research method, with average s
 
 ## Research question
 "To what extent does the number of a TV show's episodes impact its average rating, and does this differ between adult titles and non-adult titles?"
+
+
+
+
+
+
+## Authors
+Team 4: 
+- [Martijn Hendriks](https://github.com/MartijnHendriks),     e-mail: m.hendriks@tilburguniversity.edu
+- [Mauro de Kort](https://github.com/Maurodekort),            e-mail: m.dekort_3@tilburguniversity.edu
+- [Sem Niezink](https://github.com/semniezinktil),            e-mail: s.d.niezink@tilburguniversity.edu
+- [Ruben van der Thiel](https://github.com/rubenvanderthiel), e-mail: r.r.t.vdrthiel@tilburguniversity.edu
