@@ -15,7 +15,7 @@ A multiple linear regression will be the applied research method, with average s
 
 
 ## Authors
-Team 4: 
+Team 7: 
 - [Martijn Hendriks](https://github.com/MartijnHendriks),     e-mail: m.hendriks@tilburguniversity.edu
 - [Mauro de Kort](https://github.com/Maurodekort),            e-mail: m.dekort_3@tilburguniversity.edu
 - [Sem Niezink](https://github.com/semniezinktil),            e-mail: s.d.niezink@tilburguniversity.edu
