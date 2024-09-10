@@ -25,8 +25,8 @@ If there is a need to dowload the data set used for this research the following 
 
 ## Authors
 This repository is produced by group 4 of the course Data Preperation & Workflow Management taught by Hannes Datta at Tilburg University. This course is part of the Master's program Marketing Analytics. The groupmembers and authors of this repository:
-- Claudia van Hoof [c.m.m.vanhoof@tilburguniversity.edu](mailto:c.m.m.vanhoof@tilburguniversity.edu)]
-- Beste Özyürekoğlu [b.ozyurekoglu@tilburguniversity.edu](mailto:b.ozyurekoglu@tilburguniversity.edu)]
-- Lucía Ramos Dominguez [l.ramos@tilburguniversity.edu](mailto:l.ramos@tilburguniversity.edu)]
-- Ashley Saarloos [a.saarloos@tilburguniversity.edu](mailto:a.saarloos@tilburguniversity.edu)]
-- Renske Vincken [r.t.m.vincken@tilburguniversity.edu](mailto:r.t.m.vincken@tilburguniversity.edu)]
+- Claudia van Hoof ([c.m.m.vanhoof@tilburguniversity.edu](mailto:c.m.m.vanhoof@tilburguniversity.edu))
+- Beste Özyürekoğlu ([b.ozyurekoglu@tilburguniversity.edu](mailto:b.ozyurekoglu@tilburguniversity.edu))
+- Lucía Ramos Dominguez ([l.ramos@tilburguniversity.edu](mailto:l.ramos@tilburguniversity.edu))
+- Ashley Saarloos ([a.saarloos@tilburguniversity.edu](mailto:a.saarloos@tilburguniversity.edu))
+- Renske Vincken ([r.t.m.vincken@tilburguniversity.edu](mailto:r.t.m.vincken@tilburguniversity.edu))
