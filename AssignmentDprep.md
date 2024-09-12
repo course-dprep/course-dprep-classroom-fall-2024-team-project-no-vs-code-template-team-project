@@ -28,21 +28,26 @@ this effect differs for the adult genre.
 
 ## Data exploration
 
+
 This report provides an overview of the 3 IMDb datasets that we are
 using in our research. We explore the raw data files and explain the
 variables to understand the structure and content of the data.
 
-First download required packages
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+The following packages are required for this project:
+```{r,  message=FALSE, warning=FALSE}
+library(tidyr)
 library(dplyr)
 library(readr)
 library(knitr)
 library(ggplot2)
+library(kableExtra)
 ```
+
 
 ### Load the data files
 
-Load the 'title basics', 'title ratings' & 'title episode' datasets
+
+Load the 'title basics', 'title ratings' & 'title episode' datasets.
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
 urls <- c(
@@ -73,7 +78,9 @@ title_episodes <- read_delim('title.episode.tsv.gz', delim = '\t', na = '\\N')
 
 ### Explanation of the data files
 
+
 #### title.basics.tsv.gz
+
 
 This file contains basic information about the titles from the movies and TV shows in the IMDb database.
 
@@ -95,23 +102,66 @@ basics_vars <- data.frame(
                   "Includes up to three genres associated with the title.")
 )
 
-# Create table using kable
 kable(basics_vars, caption = "Variables in title.basics")
 ```
 
 
-View the first rows and the structure of the data
+View the first rows of the data.
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 head(title_basics)
-str(title_basics)
 ```
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Figure 1: Distribution of Genres"}
+title_genres <- title_basics %>%
+  separate_rows(genres, sep = ",") %>%
+  filter(!is.na(genres)) %>%
+  group_by(genres) %>%
+  summarise(count = n(), .groups = 'drop')
+
+
+ggplot(title_genres, aes(x = reorder(genres, -count), y = count)) +
+  geom_bar(stat = "identity", fill = "blue", color = "black") +
+  coord_flip() + 
+  ggtitle("Distribution of Genres") +
+  xlab("Genres") +
+  ylab("Count") +
+  theme_minimal()
+```
+
+Figure 1 shows in what sizes the titles are distributed among the different genres, clearly drama and comedy are the most common.
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Figure 2: Number of Titles by Adult Content Classification"}
+
+title_basics_clean <- title_basics %>%
+  filter(isAdult %in% c(0, 1))
+
+
+adult_distribution <- title_basics_clean %>%
+  group_by(isAdult) %>%
+  summarise(count = n(), .groups = 'drop')
+
+
+ggplot(adult_distribution, aes(x = factor(isAdult), y = count, fill = factor(isAdult))) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("0" = "blue", "1" = "red"), 
+                    labels = c("Non-Adult", "Adult")) +
+  ggtitle("Number of Titles by Adult Content Classification") +
+  xlab("Adult Content Classification") +
+  ylab("Number of Titles") +
+  theme_minimal() +
+  theme(legend.title = element_blank())
+
 
 ```
+
+Figure 2 shows us a difference between does contain “is adult” and does not contain “is adult” titles. The vast majority of titles are not only for adults. More than 10 million titles dont have the  'is adult' stamp, on the other hand there are around 350,000 titles that do contain the 'is adult' stamp.
+
 
 
 #### title.ratings.tsv.gz
+
 This file contains user ratings and the number of votes for each title.
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
@@ -122,23 +172,47 @@ ratings_vars <- data.frame(
                   "Number of votes the title has received.")
 )
 
-# Create table using kable
 kable(ratings_vars, caption = "Variables in title.ratings")
 ```
 
 
 
-View the first rows and the structure of the data
+View the first rows of the data
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 head(title_ratings)
-str(title_ratings)
 ```
+
+Analyse the data
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Figure 3: Distribution of Average Ratings"}
+ggplot(title_ratings, aes(x = averageRating)) +
+  geom_histogram(binwidth = 0.5, fill = "blue", color = "black") +
+  ggtitle("Distribution of Average Ratings") +
+  xlab("Average Rating") +
+  ylab("Count") +
+  theme_minimal()
+```
+Figure 3 shows the distribution of ratings for the te titels, the highest frequency takes place between grades 6.0 and 8.0 with a peak around 7.5. Furthermore, there are fewer lower ratings for the titels.
+
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
+title_ratings <- title_ratings %>%
+  mutate(vote_category = cut(numVotes, 
+                             breaks = c(0, 100, 1000, 10000, 50000, 100000, Inf),
+                             labels = c("0-100", "101-1,000", "1,001-10,000", 
+                                        "10,001-50,000", "50,001-100,000", "100,001+")))
 
+
+vote_distribution <- title_ratings %>%
+  group_by(vote_category) %>%
+  summarise(count = n(), .groups = 'drop')
+
+
+kable(vote_distribution, caption = "Table 1: Number of Titles per Voting Category") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = F)
 ```
 
-
+Table 1 shows how many votes the titles received. The majority has less then 100 votes, there are about 5000 titels with more then 50.000 votes.
 
 
 #### title.episode.tsv.gz
@@ -154,24 +228,51 @@ episode_vars <- data.frame(
                   "The episode number within the season.")
 )
 
-# Create table using kable
-kable(episode_vars, caption = "Variables in title.episode)
+kable(episode_vars, caption = "Variables in title.episode")
 ```
 
 
-View the first rows and the structure of the data
+View the first rows of the data
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 head(title_episodes)
-str(title_episodes)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+episodes_per_series <- title_episodes %>%
+  group_by(parentTconst) %>%
+  summarise(episode_count = n(), .groups = 'drop')
+
+episodes_per_series <- episodes_per_series %>%
+  mutate(episode_category = cut(episode_count, 
+                                breaks = c(0, 5, 10, 20, 50, 100, Inf),
+                                labels = c("1-5", "6-10", "11-20", "21-50", "51-100", "100+")))
+
+
+episode_distribution <- episodes_per_series %>%
+  group_by(episode_category) %>%
+  summarise(count = n(), .groups = 'drop')
+
+
+kable(episode_distribution, caption = "Table 2: Number of TV Series per Episode Category")
 ```
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
+summary_stats_episodes <- episodes_per_series %>%
+  summarise(
+    `Minimum` = min(episode_count),
+    `Maximum` = max(episode_count),
+    `Mean` = round(mean(episode_count), 2),  
+    `Median` = median(episode_count)
+  )
 
+
+kable(summary_stats_episodes, caption = "Table 3: Summary Statistics for Number of Episodes per TV Series") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
 ```
 
+Tables 2 and 3 give us clarity on how many episodes the TV series have. The dataset contains a maximum number of episodes of 18593 and the average number of episodes per TV series is 8.
 
 
 ### References
 IMDb Datasets: https://developer.imdb.com/non-commercial-datasets/ 
-
