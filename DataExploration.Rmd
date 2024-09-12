@@ -1,0 +1,142 @@
+---
+title: "Data Exploration"
+output:
+  html_document: default
+  pdf_document: default
+date: "2024-09-12"
+name: "Team 4"
+---
+
+```{r setup, include=FALSE, results='hide'}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r cars, echo=FALSE, results='hide'}
+summary(cars)
+```
+
+Loading the data - will be changed to the data from the drive
+
+```{r, echo = FALSE, results='hide', message=FALSE, warning=FALSE}
+setwd("C:/Users/lucil/Desktop/Master/MA/Dprep/Team 4 Project")
+library(readr)
+data_business <- read_csv("yelp_academic_dataset_business.csv")
+
+```
+# Summary Statistics 
+### __Stars__ 
+
+This section will explain the key statistics for the stars column as well as depict a plot of this column for a better understanding of the data. As our research will focus on the impact on these ratings, it is important to have a good understanding of this variable.  
+
+```{r, echo = FALSE, results = 'hide'}
+library(ggplot2)
+summary(data_business$stars)
+mean_stars <- mean(data_business$stars, na.rm = TRUE)
+median_star <- median(data_business$stars, na.rm = TRUE)
+min_starvalue <- min(data_business$stars, na.rm = TRUE)
+max_starvalue <- max(data_business$stars, na.rm = TRUE)
+rounded_mean_star <- round(mean_stars,2)
+
+print(paste("Mean Star Rating:", mean_stars))
+print(paste("Rounded Mean Star Rating:", rounded_mean_star))
+print(paste("Median Star Rating:", median_star))
+print(paste("Maximum Star Rating:", max_starvalue))
+print(paste("Minimum Star Rating:",min_starvalue))
+```
+```{r, echo = FALSE}
+# Create a data frame for structured output
+summary_df <- data.frame(
+  Statistic = c("Mean Star Rating", "Rounded Mean Star Rating", "Median Star Rating", "Maximum Star Rating", "Minimum Star Rating"),
+  Value = c(mean_stars, rounded_mean_star, median_star, max_starvalue, min_starvalue)
+)
+
+# Print the summary table with better visuals
+knitr::kable(summary_df, format = "markdown", caption = "Summary of Star Ratings")
+```
+```{r, echo=FALSE}
+ggplot(data_business, aes(x = stars)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Distribution of Star Ratings", x = "Star Ratings", y = "Frequency") +
+  theme_minimal()
+```
+
+As depicted in the graph the most common rating obtained by the business on Yelp is of 4 stars. On the other hand, 1 star ratings are the least common. 
+
+
+### __States__ 
+
+This section will depict the location distribution of business among the different states in the USA as the Yelp Reviews are from these location. 
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(ggplot2)
+data_business$state <- as.factor(data_business$state)
+ggplot(data_business, aes(x = state)) +
+  geom_bar(binwidth = 1, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Count of Businesses by State", 
+       x = "State", 
+       y = "Count") +
+  theme_minimal()
+```
+
+This figure allows us to better understand the geographical distribution of the businesses, which might of interest when assesing the reviews and ratings. 
+
+
+### __Categories__ 
+
+
+Only the top 20 categories are depicted in the following table for illustrative purposes. 
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(knitr)
+
+# Split the categories and count the occurrences
+category_counts <- data_business %>%
+  mutate(categories = strsplit(as.character(categories), ", ")) %>% # Split by comma and space
+  unnest(categories) %>% # Transform the list column into rows
+  count(categories, sort = TRUE) 
+
+# View the summary statistics
+top_categories <- category_counts %>%
+  top_n(20, n) %>%  
+  arrange(desc(n))  
+
+kable(top_categories, col.names = c("Category", "Count"),
+      caption = "Count of Top 20 Categories", 
+      format = "markdown")
+```
+
+
+The code to plot all business categories can be found below hiding. 
+
+```{r, echo=FALSE, results='hide', include=FALSE}
+library(ggplot2)
+
+ggplot(category_counts, aes(x = reorder(categories, n), y = n)) +
+  geom_bar(stat = "identity", fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Count of Categories", 
+       x = "Categories", 
+       y = "Count") +
+  coord_flip() + 
+  theme_minimal()
+```
+
+This figure represents the __Top 20 categories__ of businesses that appear more on Yelp. 
+
+To obtain a better illustrative depiction of the categories only the 20 top categories are depicted on this plot.  
+
+```{r, echo=FALSE}
+top_categories <- category_counts %>%
+  top_n(20, n) # You can also use slice_max(n, n = 20) from dplyr 1.0.0 or higher
+
+ggplot(top_categories, aes(x = reorder(categories, n), y = n)) +
+  geom_bar(stat = "identity", fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Top 20 Categories", 
+       x = "Categories", 
+       y = "Count") +
+  coord_flip() + 
+  theme_minimal()
+```
+
