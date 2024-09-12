@@ -32,9 +32,26 @@ Data2 includes:
 - tconst (string) - alphanumeric unique identifier of the title
 - averageRating – weighted average of all the individual user ratings
 - numVotes - number of votes the title has received
+
 ```{r}
-data1 <- read.csv("name.basics.tsv", sep = "\t")
-data2 <- read.csv("title.ratings.tsv", sep = "\t")
+url1 <- "https://datasets.imdbws.com/name.basics.tsv.gz"
+url2 <- "https://datasets.imdbws.com/title.ratings.tsv.gz"
+
+file1 <- "name.basics.tsv.gz"
+file2 <- "title.ratings.tsv.gz"
+
+if (!file.exists(file1)) {
+  download.file(url1, file1)
+}
+if (!file.exists(file2)) {
+  download.file(url2, file2)
+}
+
+data1 <- read.csv(gzfile(file1), sep = "\t")
+data2 <- read.csv(gzfile(file2), sep = "\t")
+
+head(data1)
+head(data2)
 ```
 
 ```{r}
@@ -43,12 +60,14 @@ str(data2)
 ```
 ```{r}
 summary(data1$birthYear)
-summary(data2$averageRating)
-summary(data2$numVotes)
 ```
 
-
-
+```{r}
+summary(data2$averageRating)
+```
+```{r}
+summary(data2$numVotes)
+```
 
 ## Data exploration
 
