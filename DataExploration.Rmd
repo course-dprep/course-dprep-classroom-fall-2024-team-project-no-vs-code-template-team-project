@@ -1,10 +1,12 @@
 ---
 title: "Data Exploration"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 date: "2024-09-12"
 name: "Team 4"
+params:
+  suppress_messages: TRUE
 ---
 
 ```{r setup, include=FALSE, results='hide'}
@@ -25,7 +27,7 @@ data_business <- read_csv("yelp_academic_dataset_business.csv")
 
 ```
 # Summary Statistics 
-### __Stars__ 
+### Variable: __Stars__ 
 
 This section will explain the key statistics for the stars column as well as depict a plot of this column for a better understanding of the data. As our research will focus on the impact on these ratings, it is important to have a good understanding of this variable.  
 
@@ -67,7 +69,7 @@ __Useful Information__
 
 In the following section, when referring to the "Count" of a variable, it refers to the amount of times that this specific variable is present throughout the businesses in the Yelp data set. 
 
-### __States__ 
+### Variable: __States__ 
 
 This section will depict the location distribution of business among the different states in the USA as the Yelp Reviews are from these location. 
 
@@ -85,7 +87,7 @@ ggplot(data_business, aes(x = state)) +
 This figure allows us to better understand the geographical distribution of the businesses, which might of interest when assesing the reviews and ratings. 
 
 
-### __Categories__ 
+### Variable: __Categories__ 
 
 
 Only the top 20 categories are depicted in the following table for illustrative purposes. 
@@ -143,7 +145,7 @@ ggplot(top_categories, aes(x = reorder(categories, n), y = n)) +
   theme_minimal()
 ```
 
-### __Attributes__
+### Variable: __Attributes__
 
 This section explores in more detail the variable "Attributes" as it is one of the key elements for this research. As it is a key element in the research, the 30 most used attributes are depicted below. 
 
@@ -200,6 +202,186 @@ kable(top_attributes, col.names = c("Attributes", "Count"),
       format = "markdown")
 ``` 
 
+
+### Variable: __Review Count__  
+The purpose of this section is to explore the key statistics of the review count column as well as depicting plots of this column for a better understanding of the data. As our research will distinguish between businesses that have a low number of reviews versus businesses that have a high number of reviews, it is crucial to have a good understanding of this variable.
+
+
+```{r, echo = FALSE, results = 'hide'}
+library(ggplot2)
+summary(data_business$review_count)
+mean_review <- mean(data_business$review_count, na.rm = TRUE)
+median_review <- median(data_business$review_count, na.rm = TRUE)
+min_reviewvalue <- min(data_business$review_count, na.rm = TRUE)
+max_reviewvalue <- max(data_business$review_count, na.rm = TRUE)
+rounded_mean_review <- round(mean_review,2)
+
+print(paste("Mean Review Count:", mean_review))
+print(paste("Rounded Mean Review Count:", rounded_mean_review))
+print(paste("Median Review Count:", median_review))
+print(paste("Maximum Review Count:", max_reviewvalue))
+print(paste("Minimum Review Count:",min_reviewvalue))
+```
+```{r, echo = FALSE}
+# Create a data frame for structured output
+summary_df <- data.frame(
+  Statistic = c("Mean Review Count", "Rounded Mean Review Count", "Median Review Count", "Maximum Review Count", "Minimum Review Count"),
+  Value = c(mean_review, rounded_mean_review, median_review, max_reviewvalue, min_reviewvalue)
+)
+
+# Print the summary table with better visuals
+knitr::kable(summary_df, format = "markdown", caption = "Summary of Review Count")
+```
+
+
+
+The variable ‘review count’ can be divided into 4 quartiles with the following ranges:
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
+quartiles <- quantile(data_business$'review_count', probs = c(0.25, 0.50, 0.75))
+
+data_business <- na.omit(data_business)
+quartile_boundaries <- quantile(data_business$review_count, probs = 0:4/4, na.rm = TRUE)
+quartile_ranges <- data.frame(
+  Quartile = c("1st Quartile", "2nd Quartile", "3rd Quartile", "4th Quartile"),
+  Lower_Bound = quartile_boundaries[1:4],
+  Upper_Bound = quartile_boundaries[2:5]
+)
+
+print(quartile_ranges)
+
+data_business <- na.omit(data_business)
+data_business$quartile <- cut(data_business$review_count, 
+                              breaks = quantile(data_business$review_count, probs = 0:4/4, na.rm = TRUE), 
+                              include.lowest = TRUE, 
+                              labels = c("1st Quartile", "2nd Quartile", "3rd Quartile", "4th Quartile"))
+
+```
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(gt)
+
+# Create a gt table from quartile_ranges
+quartile_table <- quartile_ranges %>%
+  gt() %>%
+  tab_header(
+    title = "Review Count Quartile Ranges"  # Title for the table
+  ) %>%
+  cols_label(
+    Quartile = "Quartile",                   # Column Label for Quartile
+    Lower_Bound = "Lower Bound",             # Column Label for Lower Bound
+    Upper_Bound = "Upper Bound"              # Column Label for Upper Bound
+  ) %>%
+  fmt_number(
+    columns = vars(Lower_Bound, Upper_Bound),  # Format number columns
+    decimals = 0                               # Set decimal places
+  ) %>%
+  tab_style(
+    style = list(
+      cell_fill(color = "lightblue")  # Change background color for better visibility
+    ),
+    locations = cells_body(
+      columns = everything()  # Apply to all columns
+    )
+  ) %>%
+  tab_options(
+    table.font.size = 12,                       # Font size
+    table.font.color = "darkblue",               # Font color
+    table.border.top.color = "black",           # Top border color
+    table.border.bottom.color = "black"         # Bottom border color
+  )
+
+# Display the table
+quartile_table
+```
+
+Each quartile represents a specific range of review counts, from the lowest 25% to the highest 25%. This segmentation helps us understand the distribution of review activity among businesses. The table depicted above implies that businesses that fall into the first quartile have between 5 and 8 reviews. Businesses that fall into the second quartile have between 8 and 15 reviews, businesses in the third quartile have between 15 and 37 reviews and businesses in the fourth quartile have between 37 and 7568 reviews. This is valuable information because it allows to distinguish between businesses that have a low review count versus businesses with a high review count.
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+install.packages("ggplot2")
+library(ggplot2)
+
+hist(data_business$review_count, 
+     main = "Distribution of Ratings", 
+     xlab = "Ratings", 
+     col = "lightblue", 
+     border = "black")
+     
+data_business$quartile <- cut(data_business$review_count, 
+                              breaks = quantile(data_business$review_count, probs = 0:4/4, na.rm = TRUE), 
+                              include.lowest = TRUE, 
+                              labels = c("1st Quartile", "2nd Quartile", "3rd  
+                            Quartile", "4th Quartile"))
+                            
+quartile_counts <- table(data_business$quartile)
+
+barplot(quartile_counts, 
+        main = "Businesses by Review Count Quartiles", 
+        xlab = "Quartiles", 
+        ylab = "Number of Businesses", 
+        col = c("lightblue", "lightgreen", "lightcoral", "lightgoldenrod"), 
+        border = "black")
+```
+
+
+
+The graph above depicts how many businesses fall into each “category” of review count that is elaborated above:
+
+-	1st Quartile: 44228 businesses
+
+-	2nd Quartile: 33646 businesses
+
+-	3rd Quartile: 35303 businesses
+
+-	4th Quartile: 37169 businesses
+
+
+
+__Review Count and Stars__
+
+In this analysis, we created quartiles based on the review count variable to categorize businesses into four distinct groups representing different levels of review activity. We then examined the distribution of the ‘stars’ variable across these quartiles. This involved plotting the number of businesses within each quartile against their corresponding star ratings.
+
+The quartiles allowed us to segment businesses into groups ranging from the lowest to the highest 25% of review counts. By plotting star ratings against these quartiles, we were able to visually assess how star ratings vary across different levels of review activity. The resulting plots illustrate any patterns or trends in star ratings relative to review count quartiles. This approach provides insights into the relationship between the volume of reviews and the star ratings assigned to businesses. The graph and table below depict our findings:
+
+
+```{r, results='hide', echo=FALSE, warning=FALSE, message=FALSE}
+
+library(dplyr)
+summary_data <- data_business %>%
+  group_by(quartile, stars) %>%
+  tally() %>%
+  ungroup()
+
+print(summary_data)
+library(ggplot2)
+ggplot(summary_data, aes(x = stars, y = n, fill = quartile)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Distribution of Star Ratings by Review Count Quartiles", 
+       x = "Star Rating", 
+       y = "Number of Businesses") +
+  theme_minimal()
+  
+  print(summary_data, n = Inf)
+
+print(summary_data, n = Inf)
+
+```
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+
+options(repos = c(CRAN = "https://cloud.r-project.org/"))
+install.packages("knitr")
+install.packages("gt")
+library(gt)
+
+gt_table <- summary_data %>%
+  gt() %>%
+  tab_header(
+    title = "Summary of Businesses by Quartile and Star Rating")
+library(knitr)
+
+gt_table
+```
 
 ```
 
