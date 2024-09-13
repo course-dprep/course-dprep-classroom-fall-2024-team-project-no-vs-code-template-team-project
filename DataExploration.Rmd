@@ -1,8 +1,8 @@
 ---
 title: "Data Exploration"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 date: "2024-09-12"
 name: "Team 4"
 ---
@@ -63,6 +63,9 @@ ggplot(data_business, aes(x = stars)) +
 
 As depicted in the graph the most common rating obtained by the business on Yelp is of 4 stars. On the other hand, 1 star ratings are the least common. 
 
+__Useful Information__
+
+In the following section, when referring to the "Count" of a variable, it refers to the amount of times that this specific variable is present throughout the businesses in the Yelp data set. 
 
 ### __States__ 
 
@@ -138,5 +141,65 @@ ggplot(top_categories, aes(x = reorder(categories, n), y = n)) +
        y = "Count") +
   coord_flip() + 
   theme_minimal()
+```
+
+### __Attributes__
+
+This section explores in more detail the variable "Attributes" as it is one of the key elements for this research. As it is a key element in the research, the 30 most used attributes are depicted below. 
+
+The variable attribute includes elements categorized as "True" or "False". If an element is indicated as "True" this means that said business has that attribute present while if it is indicated as "False" it indicates that that attribute is not present in that specific business. 
+
+As we want to asses the impact of that the attributes have on ratings, firstly, the top 30 attributes present in most businesses will be depicted: 
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(knitr)
+library(stringr)
+
+attribute_counts <- data_business %>%
+  mutate(attributes = strsplit(as.character(attributes), ", ")) %>% 
+  unnest(attributes) %>% 
+  mutate(attributes = str_remove_all(attributes, "‘|’|\"|\\s*:\\s*False|\\s*:\\s*True")) %>% 
+  filter(str_detect(attributes, "True")) %>% 
+  count(attributes, sort = TRUE)
+
+# View the summary statistics
+top_attributes <- attribute_counts %>%
+  top_n(30, n) %>%  
+  arrange(desc(n))  
+
+kable(top_attributes, col.names = c("Attributes", "Count"),
+      caption = "Count of Top 30 Attributes", 
+      format = "markdown")
+``` 
+
+As the lack of a an attribute can also have an impact on the rating of a business, the top 30 attributes less present on businesses will also be depicted below: 
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE} 
+
+library(dplyr)
+library(tidyr)
+library(knitr)
+library(stringr)
+
+attribute_counts <- data_business %>%
+  mutate(attributes = strsplit(as.character(attributes), ", ")) %>% 
+  unnest(attributes) %>% 
+  mutate(attributes = str_remove_all(attributes, "‘|’|\"|\\s*:\\s*False|\\s*:\\s*True")) %>% 
+  filter(str_detect(attributes, "False")) %>% 
+  count(attributes, sort = TRUE)
+
+# View the summary statistics
+top_attributes <- attribute_counts %>%
+  top_n(30, n) %>%  
+  arrange(desc(n))  
+
+kable(top_attributes, col.names = c("Attributes", "Count"),
+      caption = "Count of Top 30 Attributes", 
+      format = "markdown")
+``` 
+
+
 ```
 
