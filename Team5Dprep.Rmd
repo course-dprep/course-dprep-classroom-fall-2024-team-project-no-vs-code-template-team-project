@@ -32,27 +32,46 @@ Data2 includes:
 - tconst (string) - alphanumeric unique identifier of the title
 - averageRating – weighted average of all the individual user ratings
 - numVotes - number of votes the title has received
-```{r}
-data1 <- read.csv("name.basics.tsv", sep = "\t")
-data2 <- read.csv("title.ratings.tsv", sep = "\t")
+
+```{r echo=FALSE, warning=FALSE}
+url1 <- "https://datasets.imdbws.com/name.basics.tsv.gz"
+url2 <- "https://datasets.imdbws.com/title.ratings.tsv.gz"
+
+file1 <- "name.basics.tsv.gz"
+file2 <- "title.ratings.tsv.gz"
+
+if (!file.exists(file1)) {
+  download.file(url1, file1)
+}
+if (!file.exists(file2)) {
+  download.file(url2, file2)
+}
+
+data1 <- read.csv(gzfile(file1), sep = "\t")
+data2 <- read.csv(gzfile(file2), sep = "\t")
+
+head(data1)
+head(data2)
 ```
 
-```{r}
+```{r echo=FALSE, warning=FALSE}
 str(data1)
 str(data2)
 ```
-```{r}
+```{r echo=FALSE, warning=FALSE}
 summary(data1$birthYear)
+```
+
+```{r echo=FALSE, warning=FALSE}
 summary(data2$averageRating)
+```
+```{r echo=FALSE, warning=FALSE}
 summary(data2$numVotes)
 ```
 
-
-
-
 ## Data exploration
 
-```{r}
+```{r echo=FALSE, warning=FALSE}
 #Libraries:
 library(dplyr)
 library(ggplot2)
@@ -60,7 +79,7 @@ library(tidyr)
 library(tidyverse)
 ```
 Plot of the distribution of birth years
-```{r}
+```{r echo=FALSE, warning=FALSE}
 data1$birthYear <- as.numeric(data1$birthYear)
 ggplot(data1, aes(x = birthYear)) +
   geom_histogram(binwidth = 10, fill = "lightblue", color = "black") +
@@ -69,7 +88,7 @@ ggplot(data1, aes(x = birthYear)) +
   scale_x_continuous(limits = c(1750, NA))
 ```
 Plots of the distribution of average movie ratings and number of votes
-```{r}
+```{r echo=FALSE, warning=FALSE}
 # Plotting distribution of average movie ratings
 ggplot(data2, aes(x = averageRating)) +
   geom_histogram(binwidth = 0.5, fill = "lightgreen", color = "black") +
