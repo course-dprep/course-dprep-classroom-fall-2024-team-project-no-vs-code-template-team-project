@@ -3,7 +3,13 @@
 Is there a significant difference in the IMDb popularity scores among different movie genres? A film producer should perhaps consider producing an action genre movie rather than a thriller genre movie, despite that producer's preference for thriller. What other mediators could affect this effect? Some things that will be further explored and analyzed in this research. 
 
 ## Research Motivation
-By examining movie ratings and number of votes as a proxy for fame, this study seeks to explore whether people born in certain time periods are more likely to achieve fame in the film industry.
+Researching the question “Does an actor influence IMDb popularity ratings of a movie?” offers valuable insights into both film industry dynamics and consumer behavior. The idea of “star power,” or the ability of well-known actors to drive audience interest and movie success, has long been recognized. By analyzing IMDb ratings, we can empirically measure this impact, providing a data-driven understanding of how actors shape audience perception and engagement.
+
+IMDb, with its vast global user base, serves as a critical platform for gauging movie popularity. Understanding whether an actor’s presence correlates with higher ratings can provide important insights for studios and filmmakers when making casting decisions. If actors significantly influence ratings, their value in marketing and production becomes more measurable and strategic.
+
+This research is also important from a consumer behavior perspective. IMDb ratings often guide viewers’ choices, and well-known actors may function as a heuristic that leads audiences to rate movies higher, reflecting how people rely on easily accessible cues to make decisions.
+
+This research will bridge the gaps in understanding how casting choices influence both the commercial and popular success of films.
 
 ## Methods and Results
 #### Methods
