@@ -1,0 +1,118 @@
+---
+title: "Group Assignment Skills: Data Prep.&Workflow Mgt"
+author: "Team 5"
+date: "2024-09-06"
+output: pdf_document
+---
+
+## Team 5
+#Sophie van Hest
+#Eveline Cai
+#Mette Swanenberg
+#Tyamo van der Ceelen
+
+## Research Motivation
+
+Our research question is: Is an individual’s fame related to his/her birth year?
+By examining movie ratings and number of votes as a proxy for fame, this study seeks to explore whether people born in certain time periods are more likely to achieve fame in the film industry
+
+
+## Data
+Data1 includes:
+
+- nconst (string) - alphanumeric unique identifier of the name/person
+- primaryName (string)– name by which the person is most often credited
+- birthYear – in YYYY format
+- deathYear – in YYYY format if applicable, else '\\N'
+- primaryProfession (array of strings)– the top-3 professions of the person
+- knownForTitles (array of tconsts) – titles the person is known for
+
+Data2 includes:
+
+- tconst (string) - alphanumeric unique identifier of the title
+- averageRating – weighted average of all the individual user ratings
+- numVotes - number of votes the title has received
+
+```{r echo=FALSE, warning=FALSE}
+url1 <- "https://datasets.imdbws.com/name.basics.tsv.gz"
+url2 <- "https://datasets.imdbws.com/title.ratings.tsv.gz"
+
+file1 <- "name.basics.tsv.gz"
+file2 <- "title.ratings.tsv.gz"
+
+if (!file.exists(file1)) {
+  download.file(url1, file1)
+}
+if (!file.exists(file2)) {
+  download.file(url2, file2)
+}
+
+data1 <- read.csv(gzfile(file1), sep = "\t")
+data2 <- read.csv(gzfile(file2), sep = "\t")
+
+head(data1)
+head(data2)
+```
+
+```{r echo=FALSE, warning=FALSE}
+str(data1)
+str(data2)
+```
+```{r echo=FALSE, warning=FALSE}
+summary(data1$birthYear)
+```
+
+```{r echo=FALSE, warning=FALSE}
+summary(data2$averageRating)
+```
+```{r echo=FALSE, warning=FALSE}
+summary(data2$numVotes)
+```
+
+## Data exploration
+
+```{r echo=FALSE, warning=FALSE}
+#Libraries:
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(tidyverse)
+```
+Plot of the distribution of birth years
+```{r echo=FALSE, warning=FALSE}
+data1$birthYear <- as.numeric(data1$birthYear)
+ggplot(data1, aes(x = birthYear)) +
+  geom_histogram(binwidth = 10, fill = "lightblue", color = "black") +
+  labs(title = "Distribution of Birth Years", x = "Birth Year", y = "Count") +
+  theme_minimal() +
+  scale_x_continuous(limits = c(1750, NA))
+```
+Plots of the distribution of average movie ratings and number of votes
+```{r echo=FALSE, warning=FALSE}
+# Plotting distribution of average movie ratings
+ggplot(data2, aes(x = averageRating)) +
+  geom_histogram(binwidth = 0.5, fill = "lightgreen", color = "black") +
+  labs(title = "Distribution of Average Movie Ratings", x = "Average Rating", y = "Count") +
+  theme_minimal()
+
+# Plotting distribution of number of votes
+ggplot(data2, aes(x = numVotes)) +
+  geom_histogram(binwidth = 0.1, fill = "lightpink", color = "black") +
+  labs(title = "Distribution of Number of Votes", x = "Number of Votes", y = "Count") +
+  theme_minimal() +
+  scale_x_log10()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
