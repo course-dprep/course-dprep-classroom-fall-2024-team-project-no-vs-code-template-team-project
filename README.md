@@ -63,4 +63,4 @@ make clean
 ## Authors
 Team 5:
 - Sophie van Hest, e-mail: s.f.a.vanhest@tilburguniversity.edu
-- 
+- Tyamo van der Ceelen, e-mail: t.p.a.vdrceelen@tilburguniversity.edu
