@@ -13,7 +13,7 @@ the question: "To what extent does the number of a TV show's episodes
 impact its average rating, and does this differ between adult titles and
 non-adult titles?" The insights gained from this research could assist
 producers in making more informed decisions with regards to episode
-count when creating content.
+count when creating content. 
 
 A multiple linear regression will be the applied research method, with
 average show rating as the dependent variable. The independent variables
