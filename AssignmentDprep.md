@@ -1,4 +1,4 @@
-## Research Motivation
+## Research Motivation 
 
 The relationship between the number of episodes a TV show is set to have
 and its average rating is a crucial yet insufficiently studied area in
