@@ -41,7 +41,7 @@ The following packages are required for this project:
     library(ggplot2)
     library(kableExtra)
 
-### Load the data files
+### Load the data files 
 
 Load the ‘title basics’, ‘title ratings’ & ‘title episode’ datasets.
 
