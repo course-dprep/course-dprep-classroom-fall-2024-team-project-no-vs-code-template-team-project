@@ -32,6 +32,7 @@ This report provides an overview of the 3 IMDb datasets that we are
 using in our research. We explore the raw data files and explain the
 variables to understand the structure and content of the data.
 
+
 The following packages are required for this project:
 
     library(tidyr)
@@ -150,8 +151,9 @@ for adults. More than 10 million titles dont have the ‘is adult’ stamp,
 on the other hand there are around 350,000 titles that do contain the
 ‘is adult’ stamp.
 
-#### title.ratings.tsv.gz
 
+
+#### title.ratings.tsv.gz
 This file contains user ratings and the number of votes for each title.
 
 <table>
@@ -243,9 +245,11 @@ Table 1: Number of Titles per Voting Category
 Table 1 shows how many votes the titles received. The majority has less
 then 100 votes, there are about 5000 titels with more then 50.000 votes.
 
+
 #### title.episode.tsv.gz
 
 This file contains information about TV show episodes.
+
 
 <table>
 <caption>Variables in title.episode</caption>
@@ -356,6 +360,7 @@ Tables 2 and 3 give us clarity on how many episodes the TV series have.
 The dataset contains a maximum number of episodes of 18593 and the
 average number of episodes per TV series is 8.
 
-### References
 
-IMDb Datasets: <https://developer.imdb.com/non-commercial-datasets/>
+### References
+IMDb Datasets: https://developer.imdb.com/non-commercial-datasets/ 
+
