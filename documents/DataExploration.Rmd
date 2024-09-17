@@ -1,8 +1,8 @@
 ---
 title: "Data Exploration"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 date: "2024-09-12"
 name: "Team 4"
 params:
@@ -15,33 +15,16 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r cars, echo=FALSE, results='hide'}
+summary(cars)
 ```
 
+Loading the data - will be changed to the data from the drive
+
 ```{r, echo = FALSE, results='hide', message=FALSE, warning=FALSE}
-library(googledrive)
+setwd("C:/Users/lucil/Desktop/Master/MA/Dprep/Team 4 Project")
+library(readr)
+data_business <- read_csv("yelp_academic_dataset_business.csv")
 
-# Authenticate with Google Drive
-drive_auth()
-
-# Folder ID from your Google Drive link
-folder_id <- "1ioJVCsr5pJ5tAa2dPJ9yxIvL6rYmDSl1"
-
-# List all files in the folder
-files_in_folder <- drive_ls(as_id(folder_id))
-
-# Filter for the file named 'yelp_academic_dataset_business.csv'
-csv_file <- files_in_folder[files_in_folder$name == "yelp_academic_dataset_business.csv", ]
-
-# Check if the file exists before attempting download
-if (nrow(csv_file) > 0) {
-  # Download the CSV file to the working directory
-  drive_download(as_id(csv_file$id), path = file.path(getwd(), "yelp_academic_dataset_business.csv"), overwrite = TRUE)
-  cat("File downloaded successfully.")
-} else {
-  cat("The file 'yelp_academic_dataset_business.csv' was not found in the folder.")
-}
-
-data_business <- read_csv("yelp_academic_dataset_business.csv") 
 ```
 # Summary Statistics 
 ### Variable: __Stars__ 
@@ -218,48 +201,6 @@ kable(top_attributes, col.names = c("Attributes", "Count"),
       caption = "Count of Top 30 Attributes", 
       format = "markdown")
 ``` 
-
-
-```{r}
-library(tidyverse)
-library(jsonlite)
-
-# Function to fix common JSON issues
-fix_json <- function(x) {
-  # Replace single quotes with double quotes
-  x <- gsub("'", '"', x)
-  # Fix improperly escaped quotes (handle any erroneous ""no"" cases)
-  x <- gsub('""', '"', x)
-  # Remove improperly placed double quotes inside values
-  x <- gsub('"([^"]*)""', '"\\1"', x)
-  # Fix the inner dictionaries by handling any misplaced quotes around braces
-  x <- gsub('"{', '{', x)
-  x <- gsub('}"', '}', x)
-  return(x)
-}
-
-# Apply fix_json function to attributes in data_business
-data_business$attributes <- data_business$attributes %>% 
-  map(~ ifelse(!is.na(.x), fix_json(.x), NA))
-
-# Safely parse the JSON strings into lists
-data_business$attributes <- map(data_business$attributes, ~ tryCatch(fromJSON(.x, simplifyVector = TRUE), error = function(e) NULL))
-
-# Get all unique attribute names
-all_attributes <- data_business$attributes %>% 
-  map(~ names(.x)) %>% 
-  unlist() %>% 
-  unique()
-
-# Create binary columns for each attribute
-for (attribute in all_attributes) {
-  data_business[[attribute]] <- map_int(data_business$attributes, ~ ifelse(is.null(.x[[attribute]]), 0, ifelse(.x[[attribute]] == "True", 1, 0)))
-}
-
-# Check the updated dataframe
-head(data_business)
-
-```
 
 
 ### Variable: __Review Count__  
