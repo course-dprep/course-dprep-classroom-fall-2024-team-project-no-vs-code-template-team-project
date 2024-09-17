@@ -1,8 +1,8 @@
 ---
 title: "Data Exploration"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 date: "2024-09-12"
 name: "Team 4"
 params:
@@ -15,16 +15,33 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r cars, echo=FALSE, results='hide'}
-summary(cars)
 ```
 
-Loading the data - will be changed to the data from the drive
-
 ```{r, echo = FALSE, results='hide', message=FALSE, warning=FALSE}
-setwd("C:/Users/lucil/Desktop/Master/MA/Dprep/Team 4 Project")
-library(readr)
-data_business <- read_csv("yelp_academic_dataset_business.csv")
+library(googledrive)
 
+# Authenticate with Google Drive
+drive_auth()
+
+# Folder ID from your Google Drive link
+folder_id <- "1ioJVCsr5pJ5tAa2dPJ9yxIvL6rYmDSl1"
+
+# List all files in the folder
+files_in_folder <- drive_ls(as_id(folder_id))
+
+# Filter for the file named 'yelp_academic_dataset_business.csv'
+csv_file <- files_in_folder[files_in_folder$name == "yelp_academic_dataset_business.csv", ]
+
+# Check if the file exists before attempting download
+if (nrow(csv_file) > 0) {
+  # Download the CSV file to the working directory
+  drive_download(as_id(csv_file$id), path = file.path(getwd(), "yelp_academic_dataset_business.csv"), overwrite = TRUE)
+  cat("File downloaded successfully.")
+} else {
+  cat("The file 'yelp_academic_dataset_business.csv' was not found in the folder.")
+}
+
+data_business <- read.csv("yelp_academic_dataset_business.csv")
 ```
 # Summary Statistics 
 ### Variable: __Stars__ 
