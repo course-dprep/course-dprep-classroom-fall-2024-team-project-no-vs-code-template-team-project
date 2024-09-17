@@ -1,5 +1,5 @@
 ---
-title: "Data preperation"
+title: "Data preparation"
 output: pdf_document
 date: "2024-09-12"
 ---
