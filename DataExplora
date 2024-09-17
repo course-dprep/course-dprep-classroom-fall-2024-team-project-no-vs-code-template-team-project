@@ -1,0 +1,110 @@
+---
+title: "Data exploration 2"
+author: "Renske Vincken"
+date: "2024-09-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+summary(data_business$review_count)
+
+install.packages("ggplot2")
+library(ggplot2)
+
+hist(data_business$review_count, 
+     main = "Distribution of Ratings", 
+     xlab = "Ratings", 
+     col = "lightblue", 
+     border = "black")
+     
+assign each business to a quartile based on review count
+data_business$quartile <- cut(data_business$review_count, 
+                              breaks = quantile(data_business$review_count, probs = 0:4/4, na.rm = TRUE), 
+                              include.lowest = TRUE, 
+                              labels = c("1st Quartile", "2nd Quartile", "3rd  
+                            Quartile", "4th Quartile"))
+
+Count businesses in each quartile
+quartile_counts <- table(data_business$quartile)
+print(quartile_counts)
+
+Create a bar plot of the number of businesses in each quartile
+barplot(quartile_counts, 
+        main = "Businesses by Review Count Quartiles", 
+        xlab = "Quartiles", 
+        ylab = "Number of Businesses", 
+        col = c("lightblue", "lightgreen", "lightcoral", "lightgoldenrod"), 
+        border = "black")
+        
+review count per quartile
+quartiles <- quantile(data_business$'review_count', probs = c(0.25, 0.50, 0.75))
+
+data_business <- na.omit(data_business)
+quartile_boundaries <- quantile(data_business$review_count, probs = 0:4/4, na.rm = TRUE)
+quartile_ranges <- data.frame(
+  Quartile = c("1st Quartile", "2nd Quartile", "3rd Quartile", "4th Quartile"),
+  Lower_Bound = quartile_boundaries[1:4],
+  Upper_Bound = quartile_boundaries[2:5]
+)
+
+print(quartile_ranges)
+
+data_business <- na.omit(data_business)
+data_business$quartile <- cut(data_business$review_count, 
+                              breaks = quantile(data_business$review_count, probs = 0:4/4, na.rm = TRUE), 
+                              include.lowest = TRUE, 
+                              labels = c("1st Quartile", "2nd Quartile", "3rd Quartile", "4th Quartile"))
+library(dplyr)
+summary_data <- data_business %>%
+  group_by(quartile, stars) %>%
+  tally() %>%
+  ungroup()
+
+print(summary_data)
+library(ggplot2)
+ggplot(summary_data, aes(x = stars, y = n, fill = quartile)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Distribution of Star Ratings by Review Count Quartiles", 
+       x = "Star Rating", 
+       y = "Number of Businesses") +
+  theme_minimal()
+  
+  print(n=36)
+
+print(summary_data, n = Inf)
+
+install.packages("knitr")
+
+install.packages("gt")
+library(gt)
+
+gt_table <- summary_data %>%
+  gt() %>%
+  tab_header(
+    title = "Summary of Businesses by Quartile and Star Rating")
+library(knitr)
+
+gt_table
