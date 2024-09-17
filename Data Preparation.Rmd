@@ -121,5 +121,4 @@ clean_data <- business_filtered %>%
    filter(!is.na(address) & !is.na(postal_code) & !is.na(categories) & !is.na(attributes))
 
 ```
-  
-business_filtered <- read.csv("yelp_academic_dataset_business.csv", na.strings = c("", "NA" ))
+
