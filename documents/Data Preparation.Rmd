@@ -1,0 +1,111 @@
+---
+title: "Data preparation"
+output: pdf_document
+date: "2024-09-12"
+---
+
+
+```{r}
+library(googledrive)
+
+# Authenticate with Google Drive
+drive_auth()
+
+# Folder ID from your Google Drive link
+folder_id <- "1ioJVCsr5pJ5tAa2dPJ9yxIvL6rYmDSl1"
+
+# List all files in the folder
+files_in_folder <- drive_ls(as_id(folder_id))
+
+# Filter for the file named 'yelp_academic_dataset_business.csv'
+csv_file <- files_in_folder[files_in_folder$name == "yelp_academic_dataset_business.csv", ]
+
+# Check if the file exists before attempting download
+if (nrow(csv_file) > 0) {
+  # Download the CSV file to the working directory
+  drive_download(as_id(csv_file$id), path = file.path(getwd(), "yelp_academic_dataset_business.csv"), overwrite = TRUE)
+  cat("File downloaded successfully.")
+} else {
+  cat("The file 'yelp_academic_dataset_business.csv' was not found in the folder.")
+}
+
+business <- read.csv("yelp_academic_dataset_business.csv")
+```
+
+
+```{r exploring the data like class etc. }
+
+# Quick view of the data
+head(business$hours)
+tail(business)
+colnames(business)
+
+#Checking the classes of our variables
+
+class(business$business_id) #character
+class(business$hours)       #character
+class(business$postal_code) #character
+class(business$is_open)     #integer
+class(business$address)     #character
+class(business$categories)  #character
+class(business$latitude)    #numeric
+class(business$city)        #character
+class(business$longitude)   #numeric
+class(business$state)       #character
+class(business$review_count)#integer
+class(business$name)        #character
+class(business$stars)       #numeric
+class(business$attributes)  #character
+
+```
+```{r}
+install.packages("dplyr")
+library(dplyr)
+
+#remove the columns that is not needed for the research
+
+business <- business %>% select(-latitude, -longitude, -hours)
+
+#rearrange the columns in a logical order
+
+business <- business %>% select(business_id, name, is_open ,address, postal_code, city, state, categories, review_count, stars, attributes)
+
+```
+
+```{r}
+# Create a dummy variable to see if it is open / yes or no
+
+business$dummy_open <- business$is_open == 1
+
+# We want to delete the rows that have the value FALSE / 0
+
+business_filtered <- business[business$dummy_open == TRUE,]
+
+business_filtered$dummy_open <- NULL
+
+```
+
+```{r}
+# We have to take in consideration when we can say that a review is valid.
+# we have to set a banchmark to in our dataset to know what values are valid. 
+
+length(which(business_filtered$review_count >= 50))
+#output = 23.396
+
+length(which(business_filtered$review_count < 50))
+
+#output = 96.302
+
+# Work out the dataset to filter this data
+
+
+```
+
+```{r}
+
+business_filtered$categories[4]
+business_filtered$attributes[4]
+
+business_filtered$address[12]
+```
+
