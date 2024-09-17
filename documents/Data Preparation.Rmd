@@ -1,12 +1,26 @@
 ---
 title: "Data preparation"
 output: pdf_document
-date: "2024-09-12"
+date: "2024-09-17"
 ---
 
+```{r}
+
+install.packages("googledrive")
+install.packages("tidyverse")
+install.packages("dplyr")
+install.packages("data.table")
+```
 
 ```{r}
 library(googledrive)
+library(tidyverse)
+library(dplyr)
+library(data.table)
+```
+
+
+```{r}
 
 # Authenticate with Google Drive
 drive_auth()
@@ -29,7 +43,11 @@ if (nrow(csv_file) > 0) {
   cat("The file 'yelp_academic_dataset_business.csv' was not found in the folder.")
 }
 
-business <- read.csv("yelp_academic_dataset_business.csv")
+```
+
+```{r}
+business <- read_csv("yelp_academic_dataset_business.csv")
+
 ```
 
 
@@ -58,9 +76,8 @@ class(business$stars)       #numeric
 class(business$attributes)  #character
 
 ```
+
 ```{r}
-install.packages("dplyr")
-library(dplyr)
 
 #remove the columns that is not needed for the research
 
@@ -79,9 +96,9 @@ business$dummy_open <- business$is_open == 1
 
 # We want to delete the rows that have the value FALSE / 0
 
-business_filtered <- business[business$dummy_open == TRUE,]
+business <- business[business$dummy_open == TRUE,]
 
-business_filtered$dummy_open <- NULL
+business$dummy_open <- NULL
 
 ```
 
@@ -89,10 +106,10 @@ business_filtered$dummy_open <- NULL
 # We have to take in consideration when we can say that a review is valid.
 # we have to set a banchmark to in our dataset to know what values are valid. 
 
-length(which(business_filtered$review_count >= 50))
+length(which(business$review_count >= 50))
 #output = 23.396
 
-length(which(business_filtered$review_count < 50))
+length(which(business$review_count < 50))
 
 #output = 96.302
 
@@ -103,8 +120,19 @@ length(which(business_filtered$review_count < 50))
 
 ```{r}
 
-business_filtered$categories[4]
-business_filtered$attributes[4]
+# Find out which columns have NAs
+na_count <- colSums(is.na(business))
+print(na_count)
+
+```
+
+```{r}
+
+# Remove NAs from the necessary columns
+library(dplyr)
+business <- business %>%
+   filter(!is.na(address) & !is.na(postal_code) & !is.na(categories) & !is.na(attributes))
+
 
 ```
 
