@@ -129,10 +129,9 @@ print(na_count)
 ```{r}
 
 # Remove NAs from the necessary columns
-library(dplyr)
+
 business <- business %>%
    filter(!is.na(address) & !is.na(postal_code) & !is.na(categories) & !is.na(attributes))
-
 
 ```
 
