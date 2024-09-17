@@ -1,4 +1,4 @@
-# Does an actor influence the IMDb popularity ratinfs of a movie?
+# Does an actor influence the IMDb popularity ratings of a movie?
 ## Introduction
 The film industry is a multi-billion-dollar industry, and a film’s success is influenced by various factors such as genre, script, marketing, and, notably, the cast. The question of whether actors influence a movie’s IMDb popularity is particularly relevant in today’s digital landscape, where user-driven platforms, such as IMDb, influence the perception and amount of viewers for a movie. This research will explore whether the same effect translates to IMDb ratings, which are seen as a key indicator of a movie’s popularity globally. Extensive research exists on the determinants of box office success, such as genre and budget, but the specific influence of actors on IMDb ratings is underexplored. This research will address this gap by examining how actors influence the IMDb ratings of a movie, offering insights into digital consumer behavior and the entertainment industry.
 
