@@ -54,6 +54,11 @@ head(data1)
 head(data2)
 ```
 
+#Data cleaning
+
+na.omit(data1)
+clean_data1 <-  data1[grepl("actor|actress", data1$primaryProfession), ]
+
 ```{r echo=FALSE, warning=FALSE}
 str(data1)
 str(data2)
