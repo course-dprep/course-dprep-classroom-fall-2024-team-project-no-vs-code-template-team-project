@@ -64,3 +64,4 @@ make clean
 Team 5:
 - Sophie van Hest, e-mail: s.f.a.vanhest@tilburguniversity.edu
 - Tyamo van der Ceelen, e-mail: t.p.a.vdrceelen@tilburguniversity.edu
+- Eveline Cai, e-mail: r.t.cai@tilburguniversity.edu
