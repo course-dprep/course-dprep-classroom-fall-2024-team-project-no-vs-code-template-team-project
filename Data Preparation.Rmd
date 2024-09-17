@@ -105,6 +105,20 @@ length(which(business_filtered$review_count < 50))
 
 business_filtered$categories[4]
 business_filtered$attributes[4]
+business_filtered$address[9]
+```
+
+```{r}
+# Find out which columns have NAs
+na_count <- colSums(is.na(business_filtered))
+print(na_count)
+
+```
+```{r}
+# Remove NAs from the necessary columns
+library(dplyr)
+clean_data <- business_filtered %>%
+   filter(!is.na(address) & !is.na(postal_code) & !is.na(categories) & !is.na(attributes))
 
 ```
 
