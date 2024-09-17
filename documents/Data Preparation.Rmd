@@ -106,6 +106,5 @@ length(which(business_filtered$review_count < 50))
 business_filtered$categories[4]
 business_filtered$attributes[4]
 
-business_filtered$address[12]
 ```
 
