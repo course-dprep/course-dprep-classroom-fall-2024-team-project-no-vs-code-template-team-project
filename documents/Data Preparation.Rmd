@@ -10,6 +10,7 @@ install.packages("googledrive")
 install.packages("tidyverse")
 install.packages("dplyr")
 install.packages("data.table")
+install.packages("jsonlite")
 ```
 
 ```{r}
@@ -17,6 +18,7 @@ library(googledrive)
 library(tidyverse)
 library(dplyr)
 library(data.table)
+library(jsonlite)
 ```
 
 
@@ -103,6 +105,18 @@ business$dummy_open <- NULL
 ```
 
 ```{r}
+# Find out which columns have NAs
+na_count <- colSums(is.na(business))
+print(na_count)
+
+# Remove NAs from the necessary columns
+
+business <- business %>%
+   filter(!is.na(address) & !is.na(postal_code) & !is.na(categories) & !is.na(attributes))
+
+```
+
+```{r}
 # We have to take in consideration when we can say that a review is valid.
 # we have to set a banchmark to in our dataset to know what values are valid. 
 
@@ -115,25 +129,15 @@ length(which(business$review_count < 50))
 
 # Work out the dataset to filter this data
 
+business <- business %>% filter(review_count >= 50)
 
 ```
+
 
 ```{r}
 
-# Find out which columns have NAs
-na_count <- colSums(is.na(business))
-print(na_count)
-
 ```
 
-```{r}
-
-# Remove NAs from the necessary columns
-
-business <- business %>%
-   filter(!is.na(address) & !is.na(postal_code) & !is.na(categories) & !is.na(attributes))
-
-```
 
 ```{r}
 #Working on the attribute column to parse the attributes and create the dummy variables for them 
