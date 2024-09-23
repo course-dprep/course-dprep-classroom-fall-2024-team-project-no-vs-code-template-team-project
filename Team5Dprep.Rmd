@@ -13,9 +13,12 @@ output: pdf_document
 
 ## Research Motivation
 
-Our research question is: Is an individual’s fame related to his/her birth year?
-By examining movie ratings and number of votes as a proxy for fame, this study seeks to explore whether people born in certain time periods are more likely to achieve fame in the film industry
-
+Our research question is: **Does an actor influence IMDb popularity ratings of a movie?**
+By examining the impact of A-list actors, particularly award winners, on IMDb ratings, this study explores:
+- How casting major stars boosts a film’s visibility and box office success.
+- Whether well-known actors can raise audience interest and market expectations.
+- How star power influences consumer behavior, especially on streaming platforms.
+This research aims to guide production and marketing strategies by understanding the role of star actors in driving both film success and audience ratings.
 
 ## Data
 Data1 includes:
@@ -113,14 +116,66 @@ data5 <- left_join(data4, cdata1, by = c("tconst"))
 data <- na.omit(data5)
 ```
 
+#Data Exploration
 
+```{r}
+#Top 10 Actors by Number of Known Titles
+# Count the number of known titles for each actor
+library(dplyr)
 
+top_actors <- data %>%
+  group_by(primaryName) %>%
+  summarise(numTitles = n()) %>%
+  arrange(desc(numTitles)) %>%
+  head(10)
 
+# Display the table
+top_actors
 
+```
 
+```{r}
+# Bar chart of top 10 actors with the most titles
+ggplot(top_actors, aes(x = reorder(primaryName, -numTitles), y = numTitles)) +
+  geom_bar(stat = "identity", fill = "pink") +
+  labs(title = "Top 10 Actors by Number of Known Titles", x = "Actor", y = "Number of Titles") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
+```
 
+```{r}
+#IMDb Ratings Distribution
+# Load required libraries for visualization
+library(ggplot2)
 
+# Create a histogram of IMDb ratings
+ggplot(data, aes(x = averageRating)) +
+  geom_histogram(binwidth = 0.5, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Distribution of IMDb Ratings", x = "Average Rating", y = "Count of Movies") +
+  theme_minimal()
+
+```
+
+```{r}
+# Scatter plot of number of votes vs average rating
+ggplot(data, aes(x = numVotes, y = averageRating)) +
+  geom_point(alpha = 0.5, color = "red") +
+  labs(title = "Number of Votes vs IMDb Ratings", x = "Number of Votes", y = "Average Rating") +
+  theme_minimal()
+
+```
+
+```{r}
+# Top 10 highest rated movies (Not sure if this one is accurate)
+top_movies <- data %>%
+  arrange(desc(averageRating)) %>%
+  select(primaryTitle, averageRating, numVotes) %>%
+  head(10)
+
+# Display the table
+top_movies
+
+```
 
 
 
