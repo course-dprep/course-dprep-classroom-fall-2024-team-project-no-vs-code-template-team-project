@@ -90,7 +90,7 @@ data3 <- data3[grepl("movie", data3$titleType), ]
 library(dplyr)
 cdata1 <- data1 %>% select(primaryName, primaryProfession, knownForTitles)
 cdata2 <- data2
-cdata3 <- data3 %>% select(tconst, primaryTitle)
+cdata3 <- data3 %>% select(tconst, primaryTitle, startYear, genres)
 ```
 
 ```{r}
@@ -98,6 +98,8 @@ cdata3 <- data3 %>% select(tconst, primaryTitle)
 library(tidyr)
 cdata1 <- cdata1 %>%
   separate_rows(knownForTitles, sep = ",")
+cdata3 <- cdata3 %>%
+  separate_rows(genres, sep = ",")
 ```
 
 ```{r}
@@ -136,6 +138,7 @@ top_actors
 
 ```{r}
 # Bar chart of top 10 actors with the most titles
+library(ggplot2)
 ggplot(top_actors, aes(x = reorder(primaryName, -numTitles), y = numTitles)) +
   geom_bar(stat = "identity", fill = "pink") +
   labs(title = "Top 10 Actors by Number of Known Titles", x = "Actor", y = "Number of Titles") +
@@ -166,15 +169,19 @@ ggplot(data, aes(x = numVotes, y = averageRating)) +
 ```
 
 ```{r}
-# Top 10 highest rated movies (Not sure if this one is accurate)
-top_movies <- data %>%
-  arrange(desc(averageRating)) %>%
-  select(primaryTitle, averageRating, numVotes) %>%
-  head(10)
+# Distribution of IMDb Ratings by Actor
+ggplot(data, aes(x = actor_1, y = imdb_rating)) +
+  geom_boxplot() +
+  labs(title = "Distribution of IMDb Ratings by Actor", x = "Actor", y = "IMDb Rating") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
-# Display the table
-top_movies
+```
 
+## Initial Analyses
+
+```{r}
+# Look if we can add budget + director (optional)
+summary(lm(imdb_rating ~ primary_name + genre + start_year, data = data))
 ```
 
 
