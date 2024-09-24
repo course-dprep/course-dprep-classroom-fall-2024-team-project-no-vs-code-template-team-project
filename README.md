@@ -79,7 +79,7 @@ library(x)
 library(x)
 ```
 
-If not installed yet, please install (using the ```install.packages``` command) before running this project.
+If not installed yet, first do so by using the ```install.packages``` command before running this project.
 
 ## Running the Code
 
