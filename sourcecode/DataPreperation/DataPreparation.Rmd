@@ -59,23 +59,7 @@ business <- read_csv("yelp_academic_dataset_business.csv")
 head(business$hours)
 tail(business)
 colnames(business)
-
-#Checking the classes of our variables
-
-class(business$business_id) #character
-class(business$hours)       #character
-class(business$postal_code) #character
-class(business$is_open)     #integer
-class(business$address)     #character
-class(business$categories)  #character
-class(business$latitude)    #numeric
-class(business$city)        #character
-class(business$longitude)   #numeric
-class(business$state)       #character
-class(business$review_count)#integer
-class(business$name)        #character
-class(business$stars)       #numeric
-class(business$attributes)  #character
+summary(business)
 
 ```
 
@@ -98,7 +82,7 @@ business$dummy_open <- business$is_open == 1
 
 # We want to delete the rows that have the value FALSE / 0
 
-business <- business[business$dummy_open == TRUE,]
+business <- business %>% filter(business$dummy_open == TRUE)
 
 business$dummy_open <- NULL
 
