@@ -46,7 +46,40 @@ The findings of this research have several important implications for marketing 
 
 ## Repository Overview
 
+
+```
+├── .github
+├── sourcecode
+│   ├── Analysis
+│   ├── Data
+│   ├── DataExploration
+│   ├── DataPreparation
+│   └── Output
+├── .gitignore
+├── LICENSE
+├── makefile
+└── README.md
+```
+
 ## Dependencies
+
+Please follow the installation guides on [Tilburg Science Hub](http://tilburgsciencehub.com/)
+To run this project, the following software is needed:
+
+- R and RStudio ([installation guide](https://tilburgsciencehub.com/topics/computer-setup/software-installation/rstudio/r/))
+- Make ([installation guide](https://tilburgsciencehub.com/topics/automation/automation-tools/makefiles/make/))
+
+To run this project, the following R packages are required:
+
+```
+library(x)
+library(x)
+library(x)
+library(x)
+library(x)
+```
+
+If not installed yet, please install (using the ```install.packages``` command) before running this project.
 
 ## Running the Code
 
