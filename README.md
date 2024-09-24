@@ -83,6 +83,25 @@ If not installed yet, first do so by using the ```install.packages``` command be
 
 ## Running the Code
 
+### Step-by-Step
+
+To run the code, follow these instructions:
+
+1. Fork this repository
+2. Open your command line / terminal and run the following code:
+```
+git clone https://github.com/{your username}/consumer-rating-insights-Yelp.git
+```
+3. Set your working directory to consumer-rating-insigts-Yelp by typing the following command:
+```
+cd consumer-rating-insights-Yelp
+```
+4. Use the makefile to run all source code by typing the following command (this could take a while):
+```
+make
+```
+5. When the code has run succesfully, a file name 'XXX' has been generated containing the output of the analysis
+
 ## Authors
 This repository is produced by group 4 of the course Data Preperation & Workflow Management taught by Hannes Datta at Tilburg University. This course is part of the Master's program Marketing Analytics. The groupmembers and authors of this repository:
 - Claudia van Hoof ([c.m.m.vanhoof@tilburguniversity.edu](mailto:c.m.m.vanhoof@tilburguniversity.edu))
