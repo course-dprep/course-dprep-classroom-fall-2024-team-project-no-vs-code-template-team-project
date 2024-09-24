@@ -70,17 +70,15 @@ To run this project, the following software is needed:
 - R and RStudio ([installation guide](https://tilburgsciencehub.com/topics/computer-setup/software-installation/rstudio/r/))
 - Make ([installation guide](https://tilburgsciencehub.com/topics/automation/automation-tools/makefiles/make/))
 
-To run this project, the following R packages are required:
+To run this project, make sure the following R packages are installed. If not installed yet, first do so by using the ```install.packages``` command before running this project:
 
 ```
-library(x)
-library(x)
-library(x)
-library(x)
-library(x)
+install.packages(x)
+install.packages(x)
+install.packages(x)
+install.packages(x)
+install.packages(x)
 ```
-
-If not installed yet, first do so by using the ```install.packages``` command before running this project.
 
 ## Running the Code
 
