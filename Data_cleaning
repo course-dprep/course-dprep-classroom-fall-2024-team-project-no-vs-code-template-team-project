@@ -28,3 +28,14 @@ cdata1 <- cdata1 %>%
 ```{r}
 cdata1 <- rename(cdata1, tconst = knownForTitles)
 ```
+
+```{r}
+# creating 1 dataset
+data4 <- left_join(cdata2, cdata3, by = "tconst") 
+data5 <- left_join(data4, cdata1, by = c("tconst"))
+```
+
+```{r}
+# delete NA's
+data <- na.omit(data5)
+```
