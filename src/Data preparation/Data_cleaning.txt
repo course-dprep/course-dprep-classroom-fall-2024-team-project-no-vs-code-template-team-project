@@ -1,0 +1,41 @@
+```{r}
+data1 <- na.omit(data1)
+data2 <- na.omit(data2)
+data3 <- na.omit(data3)
+```
+
+```{r}
+# This code filters data1 to include only the rows where the primaryProfession column contains the words "actor" or "actress".
+data1 <-  data1[grepl("actor|actress", data1$primaryProfession), ]
+data3 <- data3[grepl("movie", data3$titleType), ]
+```
+
+```{r}
+# removal of unnecessary columns
+library(dplyr)
+cdata1 <- data1 %>% select(primaryName, primaryProfession, knownForTitles)
+cdata2 <- data2
+cdata3 <- data3 %>% select(tconst, primaryTitle)
+```
+
+```{r}
+# Split the 'knownForTitles' column into separate rows
+library(tidyr)
+cdata1 <- cdata1 %>%
+  separate_rows(knownForTitles, sep = ",")
+```
+
+```{r}
+cdata1 <- rename(cdata1, tconst = knownForTitles)
+```
+
+```{r}
+# creating 1 dataset
+data4 <- left_join(cdata2, cdata3, by = "tconst") 
+data5 <- left_join(data4, cdata1, by = c("tconst"))
+```
+
+```{r}
+# delete NA's
+data <- na.omit(data5)
+```
