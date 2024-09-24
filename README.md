@@ -46,6 +46,7 @@ The findings of this research have several important implications for marketing 
 
 ## Repository Overview
 
+### Structure of the Repository
 
 ```
 ├── .github
