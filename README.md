@@ -64,8 +64,7 @@ The findings of this research have several important implications for marketing 
 
 ## Dependencies
 
-Please follow the installation guides on [Tilburg Science Hub](http://tilburgsciencehub.com/)
-To run this project, the following software is needed:
+Please follow the installation guides on [Tilburg Science Hub](http://tilburgsciencehub.com/). To run this project, the following software is needed:
 
 - R and RStudio ([installation guide](https://tilburgsciencehub.com/topics/computer-setup/software-installation/rstudio/r/))
 - Make ([installation guide](https://tilburgsciencehub.com/topics/automation/automation-tools/makefiles/make/))
