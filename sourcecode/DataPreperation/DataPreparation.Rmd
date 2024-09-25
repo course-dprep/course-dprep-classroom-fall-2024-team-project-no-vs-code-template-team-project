@@ -11,6 +11,7 @@ install.packages("tidyverse")
 install.packages("dplyr")
 install.packages("data.table")
 install.packages("jsonlite")
+install.packages("strngr")
 ```
 
 ```{r}
@@ -19,6 +20,7 @@ library(tidyverse)
 library(dplyr)
 library(data.table)
 library(jsonlite)
+library(stringr)
 ```
 
 
@@ -96,7 +98,7 @@ print(na_count)
 # Remove NAs from the necessary columns
 
 business <- business %>%
-   filter(!is.na(address) & !is.na(postal_code) & !is.na(categories) & !is.na(attributes))
+   filter(!is.na(address) & !is.na(postal_code) & !is.na(attributes))
 
 ```
 
@@ -125,10 +127,6 @@ business <- business %>% filter(review_count >= 50)
 
 ```{r}
 #Working on the attribute column to parse the attributes and create the dummy variables for them 
-library(dplyr)
-library(tidyr)
-library(stringr)
-library(jsonlite)
 
 # Function to parse the attribute string into a named list
 parse_attributes <- function(attr_string) {
@@ -162,14 +160,11 @@ parsed_attributes
 
 ```{r}
 # Transform attribute variables into dummy variables
-library(dplyr)
-
 # Changing all new attribute columns to character variables
 parsed_attributes <- parsed_attributes %>% mutate(across(12:42, as.character))
 summary(parsed_attributes)
 
 # Changing all character NULL and FALSE into 0 and TRUE into 1
-setDT(parsed_attributes)
 business_prep <- parsed_attributes %>% mutate(across(12:42, 
                 ~ recode(., 'NULL' = '0', 'FALSE' = '0', 'None' = '0', 'none' = '0', 'TRUE' = '1', 'free' = '1', 
                   'beer_and_wine' = '1', 'full_bar' = '1', 'casual' = '1')))
