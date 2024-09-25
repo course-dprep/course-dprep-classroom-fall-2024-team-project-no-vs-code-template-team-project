@@ -101,9 +101,8 @@ make
 5. When the code has run succesfully, a file name 'XXX' has been generated containing the output of the analysis
 
 ## Authors
-This repository is produced by group 4 of the course Data Preperation & Workflow Management taught by Hannes Datta at Tilburg University. This course is part of the Master's program Marketing Analytics. The groupmembers and authors of this repository:
+This repository is produced by Team 4 of the course Data Preperation & Workflow Management taught by Hannes Datta at Tilburg University. This course is part of the Master's program Marketing Analytics. The teammembers and authors of this repository:
 - Claudia van Hoof ([c.m.m.vanhoof@tilburguniversity.edu](mailto:c.m.m.vanhoof@tilburguniversity.edu))
 - Beste Özyürekoğlu ([b.ozyurekoglu@tilburguniversity.edu](mailto:b.ozyurekoglu@tilburguniversity.edu))
 - Lucía Ramos Dominguez ([l.ramos@tilburguniversity.edu](mailto:l.ramos@tilburguniversity.edu))
 - Ashley Saarloos ([a.saarloos@tilburguniversity.edu](mailto:a.saarloos@tilburguniversity.edu))
-- Renske Vincken ([r.t.m.vincken@tilburguniversity.edu](mailto:r.t.m.vincken@tilburguniversity.edu))
