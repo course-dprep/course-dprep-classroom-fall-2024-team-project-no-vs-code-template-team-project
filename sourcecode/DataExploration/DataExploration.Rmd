@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(googledrive)
 
 # Authenticate with Google Drive
-drive_auth()
+drive_deauth()
 
 # Folder ID from your Google Drive link
 folder_id <- "1ioJVCsr5pJ5tAa2dPJ9yxIvL6rYmDSl1"pleas
