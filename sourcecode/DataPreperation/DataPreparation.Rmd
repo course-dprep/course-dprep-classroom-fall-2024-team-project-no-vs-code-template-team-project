@@ -26,8 +26,8 @@ library(stringr)
 
 ```{r}
 
-# Authenticate with Google Drive
-drive_auth()
+#Acces to the drive without authentication
+drive_deauth()
 
 # Folder ID from your Google Drive link
 folder_id <- "1ioJVCsr5pJ5tAa2dPJ9yxIvL6rYmDSl1"
@@ -156,6 +156,7 @@ parsed_attributes <- business %>%
 
 # Display the resulting dataframe
 parsed_attributes
+
 ```
 
 ```{r}
