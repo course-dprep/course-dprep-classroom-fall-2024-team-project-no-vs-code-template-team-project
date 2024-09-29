@@ -71,15 +71,20 @@ Please follow the installation guides on [Tilburg Science Hub](http://tilburgsci
 - R and RStudio ([installation guide](https://tilburgsciencehub.com/topics/computer-setup/software-installation/rstudio/r/))
 - Make ([installation guide](https://tilburgsciencehub.com/topics/automation/automation-tools/makefiles/make/))
 
-To run this project, make sure the following R packages are installed. If not installed yet, first do so by using the ```install.packages``` command before running this project:
+To run this project, the following R packages are mandatory:
 
 ```
-install.packages(x)
-install.packages(x)
-install.packages(x)
-install.packages(x)
-install.packages(x)
+ggplot2
+dplyr
+tidyr
+data.table
+googledrive
+stringr
+jsonlite
+readr
+writexl
 ```
+The packages will be installed when running the sourcecode of the project, but if wanted can also be installed using the ```install.packages``` command.
 
 ## Running the Code
 
