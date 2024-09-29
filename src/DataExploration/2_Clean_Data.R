@@ -2,7 +2,9 @@
 library(readr)
 library(data.table)
 library(jsonlite)
-library(dyplyr)
+library(dplyr)
+library(tidyr)
+library(stringr)
 
 ## INPUT
 business_data <- read_csv('../../data/business_data.csv')
