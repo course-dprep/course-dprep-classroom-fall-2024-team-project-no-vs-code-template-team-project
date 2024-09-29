@@ -1,6 +1,16 @@
+## SETUP
+library(data.table)
+library(tidyverse)
+library(dplyr)
+
+## INPUT
+business_data <- read_csv('../../data/business_data.csv')
+setDT(business_data)
+
+## TRANSFORMATION
 clean_data <- function(data) {
   # Remove unnecessary columns
-  cleaned_data <- data %>%
+  cleaned_data <- business_data %>%
     select(-latitude, -longitude, -hours) %>%
     select(business_id, name, is_open, address, postal_code, city, state, categories, review_count, stars, attributes)
   
@@ -18,3 +28,7 @@ clean_data <- function(data) {
   
   return(cleaned_data)  # Return the cleaned data
 }
+
+## OUTPUT
+clean_data <- clean_data()
+write.csv(clean_data, '../../data/cleaned_data_for_preperation', append = FALSE)

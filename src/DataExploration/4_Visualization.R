@@ -1,7 +1,23 @@
+## SETUP
+library(readr)
+library(data.table)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(ggplot)
+library(writexl)
+
+## INPUT
+cleaned_data <- read_csv('../../data/cleaned_data_for_exploration.csv')
+top_true_attributes <- read_csv('../../gen/temp/top_true_attributes.csv')
+top_false_attributes <- read_csv('../../gen/temp/top_false_attributes.csv')
+setDT(cleaned_data)
+setDT(top_true_attributes)
+
+## TRANSFORMATION
 # visualization of graphs 
 # Function to create visualizations
 create_visualizations <- function(data) {
-  library(ggplot2)
   
   # Visualization for stars distribution
   star_plot <- ggplot(data, aes(x = stars)) +
@@ -34,6 +50,16 @@ create_visualizations <- function(data) {
   return(list(star_plot = star_plot,
               state_plot = state_plot,
               category_plot = category_plot,
-              top_true_attributes = top_categories$attributes,
-              top_false_attributes = top_categories$attributes))
+              top_true_attributes = top_true_attributes,
+              top_false_attributes = top_false_attributes))
 }
+
+## OUTPUT
+visualization <- create_visualizations(cleaned_data)
+
+pdf("../../gen/output/data_visualization_graphs.pdf")
+create_visualizations(cleaned_data)
+dev.off()
+
+write_xlsx(visualization$top_true_attributes, '../../gen/output/data_visualization_TopTrueAttributes.xls')
+write.xlsx(visualization$top_false_attributes, '../../gen/output/data_visualization_TopFalseAttributes.xls')

@@ -1,5 +1,14 @@
-# Analysis of the different categories 
+## SETUP
+library(readr)
+library(data.table)
+library(dplyr)
 
+## INPUT
+cleaned_data <- read_csv('../../data/cleaned_data_for_exploration.csv')
+setDT(cleaned_data)
+
+## TRANSFORMATION
+# Analysis of the different categories 
 # Function to perform summary statistics and quartile analysis
 analyze_data <- function(data) {
   # Summary statistics for stars
@@ -54,3 +63,11 @@ analyze_data <- function(data) {
               top_true_attributes = top_true_attributes,
               top_false_attributes = top_false_attributes))
 }
+analzyed_data <- analyze_data(cleaned_data)
+
+## OUTPUT
+top_true_attributes = analzyed_data$top_true_attributes
+write.csv(top_true_attributes, '../../gen/temp/top_false_attributes.csv')
+
+top_false_attributes = analzyed_data$top_false_attributes
+write.csv(top_false_attributes, '../../gen/temp/top_false_attributes.csv')
