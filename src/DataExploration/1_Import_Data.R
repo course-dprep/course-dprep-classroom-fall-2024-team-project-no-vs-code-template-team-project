@@ -41,4 +41,4 @@ import_data <- function() {
 
 ## OUTPUT
 business_data <- import_data()
-write.csv(business_data,"../../data/business_data.csv", append = FALSE)
+write.csv(business_data,"../../data/business_data.csv", append = FALSE, row.names = FALSE)

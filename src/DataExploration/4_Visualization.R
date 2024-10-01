@@ -1,14 +1,15 @@
 ## SETUP
 library(readr)
 library(data.table)
+library(jsonlite)
 library(dplyr)
 library(tidyr)
 library(stringr)
-library(ggplot)
+library(ggplot2)
 library(writexl)
 
 ## INPUT
-cleaned_data <- read_csv('../../data/cleaned_data_for_exploration.csv')
+load('../../data/cleaned_data_for_exploration.RData')
 top_true_attributes <- read_csv('../../gen/temp/top_true_attributes.csv')
 top_false_attributes <- read_csv('../../gen/temp/top_false_attributes.csv')
 setDT(cleaned_data)
@@ -62,4 +63,4 @@ create_visualizations(cleaned_data)
 dev.off()
 
 write_xlsx(visualization$top_true_attributes, '../../gen/output/data_visualization_TopTrueAttributes.xls')
-write.xlsx(visualization$top_false_attributes, '../../gen/output/data_visualization_TopFalseAttributes.xls')
+write_xlsx(visualization$top_false_attributes, '../../gen/output/data_visualization_TopFalseAttributes.xls')

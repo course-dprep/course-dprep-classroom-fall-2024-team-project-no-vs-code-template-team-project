@@ -1,10 +1,12 @@
 ## SETUP
-library(readr)
 library(data.table)
+library(jsonlite)
 library(dplyr)
+library(tidyr)
+library(stringr)
 
 ## INPUT
-cleaned_data <- read_csv('../../data/cleaned_data_for_exploration.csv')
+load('../../data/cleaned_data_for_exploration.RData')
 setDT(cleaned_data)
 
 ## TRANSFORMATION
@@ -67,7 +69,7 @@ analzyed_data <- analyze_data(cleaned_data)
 
 ## OUTPUT
 top_true_attributes = analzyed_data$top_true_attributes
-write.csv(top_true_attributes, '../../gen/temp/top_false_attributes.csv')
+write.csv(top_true_attributes, '../../gen/temp/top_true_attributes.csv')
 
 top_false_attributes = analzyed_data$top_false_attributes
 write.csv(top_false_attributes, '../../gen/temp/top_false_attributes.csv')
