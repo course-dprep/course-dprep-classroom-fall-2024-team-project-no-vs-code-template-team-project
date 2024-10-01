@@ -42,5 +42,5 @@ parsed_attributes <- as.data.frame(parsed_attributes)
 
 ## OUTPUT
 cleaned_data <- parsed_attributes
-cleaned_data[,15:50] <- as.character(cleaned_data[,15:50])
-write.csv(cleaned_data, '../../data/cleaned_data_for_exploration.csv')
+save(cleaned_data, file = '../../data/cleaned_data_for_exploration.RData')
+
