@@ -43,7 +43,7 @@ seperate_categories <- function(data, category) {
 # Specify categories we want to create a dummy variable for
 categories <- c("Restaurants", "Shopping", "Home Service", "Beauty & Spas", 
                 "Health & Medical", "Local Service", "Automotive", 
-                "Active Life", "Hotels & Travel")
+                "Active Life", "Hotels & Travel", "Arts & Entertainment")
 
 # Clean the data using the clean_data function
 cleaned_data <- clean_data(business_data)

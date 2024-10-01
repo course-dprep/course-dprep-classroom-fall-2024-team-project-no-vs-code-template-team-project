@@ -7,7 +7,7 @@ library(readr)
 import_data <- function() {
   # Authenticate with Google Drive (if not already authenticated)
   drive_deauth()  
-  
+
   # Define the folder ID where the file is located
   folder_id <- "1ioJVCsr5pJ5tAa2dPJ9yxIvL6rYmDSl1"
   
