@@ -20,7 +20,7 @@ clean_data <- function(data) {
   
   # Remove rows with NAs in necessary columns
   cleaned_data <- cleaned_data %>%
-    filter(!is.na(address) & !is.na(postal_code) & !is.na(attributes))
+    filter(!is.na(address) & !is.na(postal_code))
   
   # Remove businesses with fewer than 50 reviews
   cleaned_data <- cleaned_data %>%

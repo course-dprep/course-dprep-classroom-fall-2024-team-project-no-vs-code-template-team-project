@@ -86,7 +86,7 @@ The packages will automatically be installed when running the makefile of the pr
 
 ## Running the Code
 
-### Step-by-Step
+### Root Makefile Step-By-Step
 
 To run the code, follow these instructions:
 
@@ -99,11 +99,30 @@ git clone https://github.com/{your username}/consumer-rating-insights-Yelp.git
 ```
 cd consumer-rating-insights-Yelp
 ```
-4. Use the makefile to run all source code by typing the following command:
+4. Run the makefile to run all source code by typing the following command:
 ```
 make
 ```
 5. The code will run and will generate all output. New folders will be generated called 'data' (containing all the raw and cleaned/prepared data) and 'gen' (containing all generated output). The 'gen' folder will contain the actual output of the project, including the results of the analysis and data exploration visualizations.
+
+### Run Seperate Makefiles Step-By-Step
+
+It is also possible to run the makefiles of the the underlying folders DataPreparation and DataExploration separately. If only in need of interesting visualization produces by the data exploration, for example, solely run the data exploration makefile. To do so:
+
+1. Fork this repository
+2. Open your command line / terminal and run the following code:
+```
+git clone https://github.com/{your username}/consumer-rating-insights-Yelp.git
+
+1. Set the working directory to the folder of which the makefile should be run (in this example DataExploration):
+```
+cd src/DataExploration
+```
+2. Run the makefile to run all source code by typing the following command:
+```
+make
+```
+3. The code will run and will generate all output of the data exploration, stored in the folders 'data' and 'gen' in the main directory. Not that, in order to run the analysis makefile seperately, the data preperation makefile should be run first!
 
 ## Authors
 This repository is produced by Team 4 of the course Data Preperation & Workflow Management taught by Hannes Datta at Tilburg University. This course is part of the Master's program Marketing Analytics. The teammembers and authors of this repository:

@@ -26,7 +26,7 @@ create_frequency_table <- function(data) {
   frequency_table <- data.frame(Variable = character(), Count_0 = integer(), Count_1 = integer(), stringsAsFactors = FALSE)
   
   # Loop through variables 12 to 20
-  for (i in 12:20) {
+  for (i in 12:21) {
     # Get the counts of 0s and 1s
     count_0 <- sum(data[[i]] == 0, na.rm = TRUE)
     count_1 <- sum(data[[i]] == 1, na.rm = TRUE)
@@ -41,7 +41,7 @@ create_frequency_table <- function(data) {
 # Specify categories we want to create a dummy variable for
 categories <- c("Restaurants", "Shopping", "Home Service", "Beauty & Spas", 
                 "Health & Medical", "Local Service", "Automotive", 
-                "Active Life", "Hotels & Travel")
+                "Active Life", "Hotels & Travel", "Arts & Entertainment")
 
 # Loop the categories through the separate-categories function and 
 for (category in categories) {
