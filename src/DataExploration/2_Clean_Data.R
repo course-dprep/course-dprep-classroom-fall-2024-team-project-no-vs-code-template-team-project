@@ -1,46 +1,58 @@
 ## SETUP
 library(readr)
 library(data.table)
-library(jsonlite)
 library(dplyr)
-library(tidyr)
-library(stringr)
 
 ## INPUT
 business_data <- read_csv('../../data/business_data.csv')
 setDT(business_data)
 
 ## TRANSFORMATION
-# Function to parse the attribute string into a named list
-parse_attributes <- function(attr_string) {
-  # Clean the string to make it valid JSON syntax
-  cleaned_string <- gsub("u'", "'", attr_string)  # Remove the 'u' prefix
-  cleaned_string <- gsub("'", "\"", cleaned_string)  # Replace single quotes with double quotes
-  cleaned_string <- gsub("\\\\\"", "\"", cleaned_string)  # Remove escape characters before quotes
-  cleaned_string <- gsub('"(True|False)"', '\\L\\1', cleaned_string, perl = TRUE)  # Convert "True"/"False" to lowercase
-  cleaned_string <- gsub(": None", ": null", cleaned_string)  # Replace None with null
+# Function to clean data 
+clean_data <- function(data) {
+  # Remove unnecessary columns
+  cleaned_data <- business_data %>%
+    select(-latitude, -longitude, -hours) %>%
+    select(business_id, name, is_open, address, postal_code, city, state, categories, review_count, stars, attributes)
   
-  # Remove any invalid escaping inside JSON strings
-  cleaned_string <- gsub('(?<=:)\\s*""(.*?)""', '"\\1"', cleaned_string, perl = TRUE)
+  # Keep only open businesses
+  cleaned_data <- cleaned_data %>%
+    filter(is_open == 1)
   
-  # Ensure the string is enclosed in curly braces
-  cleaned_string <- paste0("{", str_remove_all(cleaned_string, "^\\{|\\}$"), "}")
+  # Remove rows with NAs in necessary columns
+  cleaned_data <- cleaned_data %>%
+    filter(!is.na(address) & !is.na(postal_code) & !is.na(attributes))
   
-  # Attempt to parse the string into a list
-  parsed_list <- tryCatch(fromJSON(cleaned_string), error = function(e) NULL)
+  # Remove businesses with fewer than 50 reviews
+  cleaned_data <- cleaned_data %>%
+    filter(review_count >= 50)
   
-  return(parsed_list)
+  return(cleaned_data)  # Return the cleaned data
 }
 
-# Apply the parse_attributes function to each row and convert to a dataframe
-parsed_attributes <- business_data %>%
-  mutate(attributes_list = lapply(attributes, parse_attributes)) %>%
-  unnest_wider(attributes_list)
+# Function to create new dummy variables for category that is put in it
+seperate_categories <- function(data, category) {
+  # Separating Restaurants
+  data <- data %>%
+  mutate(dummy_variable = ifelse(grepl(category, data$categories, ignore.case = TRUE), 1, 0)) %>%
+  rename(!!paste0("dummy_", category) := dummy_variable) 
+  
+  return(data)
+}
 
-# Display the resulting dataframe
-parsed_attributes <- as.data.frame(parsed_attributes)
+# Specify categories we want to create a dummy variable for
+categories <- c("Restaurants", "Shopping", "Home Service", "Beauty & Spas", 
+                "Health & Medical", "Local Service", "Automotive", 
+                "Active Life", "Hotels & Travel")
+
+# Clean the data using the clean_data function
+cleaned_data <- clean_data(business_data)
+
+# Loop the categories through the seperate-categories function and 
+for (category in categories) {
+  cleaned_data <- seperate_categories(cleaned_data, category)
+}
 
 ## OUTPUT
-cleaned_data <- parsed_attributes
-save(cleaned_data, file = '../../data/cleaned_data_for_exploration.RData')
+write.csv(cleaned_data, '../../data/cleaned_data_for_exploration.csv', row.names = FALSE)
 

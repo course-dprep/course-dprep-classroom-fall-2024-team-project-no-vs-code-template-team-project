@@ -37,8 +37,8 @@ import_data <- function() {
   }
 }
 
-## TRANSFORMATION (XXX)
+## TRANSFORMATION 
+business_data <- import_data()
 
 ## OUTPUT
-business_data <- import_data()
 write.csv(business_data,"../../data/business_data.csv", append = FALSE, row.names = FALSE)

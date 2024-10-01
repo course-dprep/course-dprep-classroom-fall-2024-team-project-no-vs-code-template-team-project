@@ -63,3 +63,15 @@ attributes_1_freq = freq_table(prepared_data)
 
 save(prepared_data, file = '../../data/prepared_data.RData')
 write_xlsx(attributes_1_freq, '../../gen/output/attributes_1_frequency.xlsx')
+
+Restaurant
+Shopping
+Home Service
+Beauty & Spas
+Health & Medical
+Local Services
+Automotive
+Active Life
+Hotels & Travel
+
+
