@@ -51,17 +51,15 @@ The findings of this research have several important implications for marketing 
 ### Structure of the Repository
 
 ```
-├── .github
-├── sourcecode
+├── data_converter
+├── src
 │   ├── Analysis
-│   ├── Data
 │   ├── DataExploration
-│   ├── DataPreparation
 │   └── Output
 ├── .gitignore
 ├── LICENSE
-├── makefile
-└── README.md
+├── README.md
+└── makefile
 ```
 
 ## Dependencies
@@ -74,17 +72,17 @@ Please follow the installation guides on [Tilburg Science Hub](http://tilburgsci
 To run this project, the following R packages are mandatory:
 
 ```
-ggplot2
+googledrive
+readr
+data.table
 dplyr
 tidyr
-data.table
-googledrive
-stringr
-jsonlite
-readr
-writexl
+grid
+gridExtra
+ggplot2
+
 ```
-The packages will be installed when running the sourcecode of the project, but if wanted can also be installed using the ```install.packages``` command.
+The packages will automatically be installed when running the makefile of the project, but if wanted the packages can also be installed using the ```install.packages``` command.
 
 ## Running the Code
 
@@ -101,11 +99,11 @@ git clone https://github.com/{your username}/consumer-rating-insights-Yelp.git
 ```
 cd consumer-rating-insights-Yelp
 ```
-4. Use the makefile to run all source code by typing the following command (this could take a while):
+4. Use the makefile to run all source code by typing the following command:
 ```
 make
 ```
-5. When the code has run succesfully, a file name 'XXX' has been generated containing the output of the analysis
+5. The code will run and will generate all output. New folders will be generated called 'data' (containing all the raw and cleaned/prepared data) and 'gen' (containing all generated output). The 'gen' folder will contain the actual output of the project, including the results of the analysis and data exploration visualizations.
 
 ## Authors
 This repository is produced by Team 4 of the course Data Preperation & Workflow Management taught by Hannes Datta at Tilburg University. This course is part of the Master's program Marketing Analytics. The teammembers and authors of this repository:
