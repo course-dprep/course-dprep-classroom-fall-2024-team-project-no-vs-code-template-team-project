@@ -121,6 +121,7 @@ Since separating and analyzing all categories is nearly impossible, the main cat
 - Active Life
 - Hotels & Travel
 - Arts & Entertainment
+
 The dummy variables of these categories are created by looping a list of the categories through the separating function:
 ```
 categories <- c("Restaurants", "Shopping", "Home Service", "Beauty & Spas", 
