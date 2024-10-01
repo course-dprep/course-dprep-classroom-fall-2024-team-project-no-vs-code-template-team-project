@@ -1,6 +1,6 @@
 #  List of required packages
-list_of_packages <- c("ggplot2", "dplyr", "tidyr", "data.table", 
-                      "googledrive", "stringr", "jsonlite", "readr", "writexl")
+list_of_packages <- c('googledrive', 'readr', 'data.table', 'dplyr',
+                      'grid', 'gridExtra', 'ggplot2', 'tidyr')
 
 # Install any packages that are not already installed
 new_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]
