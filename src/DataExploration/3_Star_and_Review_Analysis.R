@@ -1,12 +1,12 @@
 ## SETUP
+library(readr)
 library(data.table)
-library(jsonlite)
 library(dplyr)
-library(tidyr)
-library(stringr)
+library(grid)
+library(gridExtra)
 
 ## INPUT
-load('../../data/cleaned_data_for_exploration.RData')
+cleaned_data <- read_csv('../../data/cleaned_data_for_exploration.csv')
 setDT(cleaned_data)
 
 ## TRANSFORMATION
@@ -21,8 +21,7 @@ analyze_data <- function(data) {
               median(data$stars, na.rm = TRUE),
               min(data$stars, na.rm = TRUE),
               max(data$stars, na.rm = TRUE),
-              round(mean(data$stars, na.rm = TRUE), 2))
-  )
+              round(mean(data$stars, na.rm = TRUE), 2)))
   
   # Summary statistics for review counts
   review_summary <- data.frame(
@@ -31,8 +30,7 @@ analyze_data <- function(data) {
     Value = c(mean(data$review_count, na.rm = TRUE),
               median(data$review_count, na.rm = TRUE),
               min(data$review_count, na.rm = TRUE),
-              max(data$review_count, na.rm = TRUE))
-  )
+              max(data$review_count, na.rm = TRUE)))
   
   # Calculate quartiles
   quartile_boundaries <- quantile(data$review_count, probs = 0:4/4, na.rm = TRUE)
@@ -41,35 +39,18 @@ analyze_data <- function(data) {
                        include.lowest = TRUE,
                        labels = c("1st Quartile", "2nd Quartile", "3rd Quartile", "4th Quartile"))
   
-  # Attributes analysis
-  attribute_counts <- data %>%
-    mutate(attributes = strsplit(as.character(attributes), ", ")) %>%
-    unnest(attributes) %>%
-    mutate(attributes = str_remove_all(attributes, "‘|’|\"|\\s*:\\s*False|\\s*:\\s*True")) 
-  
-  top_true_attributes <- attribute_counts %>%
-    filter(str_detect(attributes, "True")) %>%
-    count(attributes, sort = TRUE) %>%
-    top_n(30, n) %>%
-    arrange(desc(n))
-  
-  top_false_attributes <- attribute_counts %>%
-    filter(str_detect(attributes, "False")) %>%
-    count(attributes, sort = TRUE) %>%
-    top_n(30, n) %>%
-    arrange(desc(n))
-  
   return(list(star_summary = star_summary, 
               review_summary = review_summary,
-              data = data,
-              top_true_attributes = top_true_attributes,
-              top_false_attributes = top_false_attributes))
+              data = data))
 }
-analzyed_data <- analyze_data(cleaned_data)
+analyzed_data <- analyze_data(cleaned_data)
+star_summary <- analyzed_data$star_summary
+review_summary <- analyzed_data$review_summary
 
 ## OUTPUT
-top_true_attributes = analzyed_data$top_true_attributes
-write.csv(top_true_attributes, '../../gen/temp/top_true_attributes.csv')
+pdf('../../gen/output/star_and_review_summary.pdf')
+grid.table(star_summary)
+grid.newpage()
+grid.table(review_summary) 
+dev.off()
 
-top_false_attributes = analzyed_data$top_false_attributes
-write.csv(top_false_attributes, '../../gen/temp/top_false_attributes.csv')

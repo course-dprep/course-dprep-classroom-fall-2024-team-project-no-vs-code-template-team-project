@@ -1,19 +1,15 @@
 ## SETUP
 library(readr)
 library(data.table)
-library(jsonlite)
 library(dplyr)
-library(tidyr)
-library(stringr)
 library(ggplot2)
+library(tidyr)
 library(writexl)
+library(gridExtra)
 
 ## INPUT
-load('../../data/cleaned_data_for_exploration.RData')
-top_true_attributes <- read_csv('../../gen/temp/top_true_attributes.csv')
-top_false_attributes <- read_csv('../../gen/temp/top_false_attributes.csv')
+cleaned_data <- read_csv('../../data/cleaned_data_for_exploration.csv')
 setDT(cleaned_data)
-setDT(top_true_attributes)
 
 ## TRANSFORMATION
 # visualization of graphs 
@@ -51,16 +47,16 @@ create_visualizations <- function(data) {
   return(list(star_plot = star_plot,
               state_plot = state_plot,
               category_plot = category_plot,
-              top_true_attributes = top_true_attributes,
-              top_false_attributes = top_false_attributes))
+              category_counts = category_counts,
+              top_categories = top_categories))
 }
-
-## OUTPUT
 visualization <- create_visualizations(cleaned_data)
-
+top_20_categories <- visualization$category_counts %>% top_n(20, n) 
+## OUTPUT
 pdf("../../gen/output/data_visualization_graphs.pdf")
-create_visualizations(cleaned_data)
+visualization
 dev.off()
 
-write_xlsx(visualization$top_true_attributes, '../../gen/output/data_visualization_TopTrueAttributes.xls')
-write_xlsx(visualization$top_false_attributes, '../../gen/output/data_visualization_TopFalseAttributes.xls')
+pdf('../../gen/output/top_20_categories.pdf')
+grid.table(top_20_categories)
+dev.off()
