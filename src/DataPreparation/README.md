@@ -135,7 +135,7 @@ prepared_data <- cleaned_data
 ```
 Now, ten new variables are created, one per category, containing solely 0s and 1s indicating whether a specific business falls in that category or not.
 
-### 4.3 Creating Frequency Table Function
+### 3.2 Creating Frequency Table Function
 In order to determine the validity of the sample it is important to analyze the occurrence 1s for each category. If the occurrence of 1s is too low for a category, the sample is insufficient and this category is not valid to be analyzed. To create a frequency table to analyze the sample the following function is used:
 ```
 create_frequency_table <- function(data) {
