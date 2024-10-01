@@ -49,8 +49,11 @@ create_visualizations <- function(data) {
               category_counts = category_counts,
               top_categories = top_categories))
 }
+
+# Running the data through the create_visualizations function and store the top_20_categories
 visualization <- create_visualizations(cleaned_data)
 top_20_categories <- visualization$category_counts %>% top_n(20, n) 
+
 ## OUTPUT
 pdf("../../gen/output/data_visualization_graphs.pdf")
 visualization

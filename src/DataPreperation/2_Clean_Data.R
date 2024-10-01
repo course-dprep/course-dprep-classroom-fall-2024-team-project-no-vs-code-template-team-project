@@ -29,6 +29,8 @@ clean_data <- function(data) {
   return(cleaned_data)  # Return the cleaned data
 }
 
+# Clean the data using the clean_data function
+cleaned_data <- clean_data(business_data)
+
 ## OUTPUT
-clean_data <- clean_data(business_data)
-write.csv(clean_data, '../../data/cleaned_data_for_preperation', row.names = FALSE)
+write.csv(cleaned_data, '../../data/cleaned_data_for_preperation.csv', row.names = FALSE)

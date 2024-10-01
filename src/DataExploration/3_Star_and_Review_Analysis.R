@@ -43,8 +43,13 @@ analyze_data <- function(data) {
               review_summary = review_summary,
               data = data))
 }
+
+# Running the data throught the analyze_data function and stoingen the star_summary and review_summary
 analyzed_data <- analyze_data(cleaned_data)
 star_summary <- analyzed_data$star_summary
+setDT(star_summary)
+star_summary$Value <- as.numeric(star_summary$Value)
+star_summary$Value <- round(star_summary$Value, 2)
 review_summary <- analyzed_data$review_summary
 
 ## OUTPUT
