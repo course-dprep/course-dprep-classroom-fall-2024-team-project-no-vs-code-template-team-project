@@ -171,6 +171,7 @@ The function creates a frequency table showing the number of 0s and 1s for each 
 | Active Life | 22488 | 703 |
 | Hotels & Travels | 21897 | 1294 |
 | Arts & Entertainment | 22050 | 1141 |
+
 Based on this table, the sample seems sufficient. Each category has at least 485 businesses classified in that category. This means that an analysis based on this sample will be valid.
 
 ### Prepared Dataset
