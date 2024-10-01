@@ -1,6 +1,6 @@
 ## SETUP
+library(readr)
 library(data.table)
-library(tidyverse)
 library(dplyr)
 
 ## INPUT
@@ -30,5 +30,5 @@ clean_data <- function(data) {
 }
 
 ## OUTPUT
-clean_data <- clean_data()
-write.csv(clean_data, '../../data/cleaned_data_for_preperation', append = FALSE)
+clean_data <- clean_data(business_data)
+write.csv(clean_data, '../../data/cleaned_data_for_preperation', row.names = FALSE)
