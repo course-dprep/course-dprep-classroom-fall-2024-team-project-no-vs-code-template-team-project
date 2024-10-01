@@ -1,77 +1,60 @@
 ## SETUPT
 library(readr)
 library(data.table)
-library(jsonlite)
 library(dplyr)
 library(tidyr)
-library(stringr)
-library(writexl)
+library(gridExtra)
 
 ## INPUT
-clean_data <- read_csv('../../data/cleaned_data_for_preperation')
-setDT(clean_data)
+cleaned_data <- read_csv('../../data/cleaned_data_for_preperation.csv')
+setDT(cleaned_data)
 
 ## TRANSFORMATION
-# Function to parse the attribute string into a named list
-parse_attributes <- function(attr_string) {
-  cleaned_string <- gsub("u'", "'", attr_string)
-  cleaned_string <- gsub("'", "\"", cleaned_string)
-  cleaned_string <- gsub("\\\\\"", "\"", cleaned_string)
-  cleaned_string <- gsub('"(True|False)"', '\\L\\1', cleaned_string, perl = TRUE)
-  cleaned_string <- gsub(": None", ": null", cleaned_string)
-  cleaned_string <- gsub('(?<=:)\\s*""(.*?)""', '"\\1"', cleaned_string, perl = TRUE)
-  cleaned_string <- paste0("{", str_remove_all(cleaned_string, "^\\{|\\}$"), "}")
+# Function to create new dummy variables for category that is put in it
+seperate_categories <- function(data, category) {
+  # Separating Restaurants
+  data <- data %>%
+    mutate(dummy_variable = ifelse(grepl(category, data$categories, ignore.case = TRUE), 1, 0)) %>%
+    rename(!!paste0("dummy_", category) := dummy_variable) 
   
-  parsed_list <- tryCatch(fromJSON(cleaned_string), error = function(e) NULL)
-  return(parsed_list)
+  return(data)
 }
 
-# Function to prepare data and create dummy variables
-prepare_data <- function(data) {
-  # Convert attribute variables to dummy variables
-  data_attributes_parsed <- data %>%
-    mutate(across(everything(), as.character)) %>%
-    mutate(across(12:42, ~ recode(., 'NULL' = '0', 'FALSE' = '0', 'None' = '0', 'none' = '0', 
-            'TRUE' = '1', 'free' = '1', 'beer_and_wine' = '1', 'full_bar' = '1', 'casual' = '1')))
+# Function to create frequency table of 1s and 0s per category to check validity of the sample
+create_frequency_table <- function(data) {
+  # Initialize an empty data frame to store the results
+  frequency_table <- data.frame(Variable = character(), Count_0 = integer(), Count_1 = integer(), stringsAsFactors = FALSE)
   
-  # Rename specific attributes
-  names(data_attributes_parsed)[names(data_attributes_parsed) == 'WiFi'] <- 'FreeWiFi'
-  names(data_attributes_parsed)[names(data_attributes_parsed) == 'RestaurantAttire'] <- 'RestaurantCasualAttire'
+  # Loop through variables 12 to 20
+  for (i in 12:20) {
+    # Get the counts of 0s and 1s
+    count_0 <- sum(data[[i]] == 0, na.rm = TRUE)
+    count_1 <- sum(data[[i]] == 1, na.rm = TRUE)
+    
+    # Append the results to the frequency table
+    frequency_table <- rbind(frequency_table, data.frame(Variable = names(data)[i], Count_0 = count_0, Count_1 = count_1))
+  }
   
-  # Replace NAs with 0
-  data_attributes_parsed[is.na(data_attributes_parsed)] <- '0'
-  
-  return(data_attributes_parsed)  # Return the prepared data frame
+  return(frequency_table)
 }
 
-# Function to create frequency table of 1s per attribute
-freq_table <- function(data) {
-  # Create frequency table of 1s per attribute
-  attribute1_freq <- data %>% select(12:42) %>%
-  summarise(across(everything(), ~sum(. == "1"), .names = "{col}_1"))
-  
-  # Print frequency table
-  print(attribute1_freq)
+# Specify categories we want to create a dummy variable for
+categories <- c("Restaurants", "Shopping", "Home Service", "Beauty & Spas", 
+                "Health & Medical", "Local Service", "Automotive", 
+                "Active Life", "Hotels & Travel")
+
+# Loop the categories through the separate-categories function and 
+for (category in categories) {
+  cleaned_data <- seperate_categories(cleaned_data, category)
 }
+prepared_data <- cleaned_data
+
+# Create frequency table of dummy variables though create_frequency_table
+frequency_table_categories = create_frequency_table(prepared_data)
 
 ## OUTPUT
-clean_data <- clean_data %>%
-  mutate(attributes_list = lapply(attributes, parse_attributes)) %>%
-  unnest_wider(attributes_list)
-prepared_data <- prepare_data(clean_data)
-attributes_1_freq = freq_table(prepared_data)
+write.csv(prepared_data, '../../data/prepared_data.csv', row.names = FALSE)
 
-save(prepared_data, file = '../../data/prepared_data.RData')
-write_xlsx(attributes_1_freq, '../../gen/output/attributes_1_frequency.xlsx')
-
-Restaurant
-Shopping
-Home Service
-Beauty & Spas
-Health & Medical
-Local Services
-Automotive
-Active Life
-Hotels & Travel
-
-
+pdf('../../gen/temp/frequency_table_categories.pdf')
+grid.table(frequency_table_categories)
+dev.off()
