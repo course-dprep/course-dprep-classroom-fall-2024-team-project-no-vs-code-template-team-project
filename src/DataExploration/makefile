@@ -1,7 +1,7 @@
 DATA = ../../data
 output = ../../gen/output
 
-all: install.packages $(DATA)/business_data.csv $(DATA)/cleaned_data_for_exploration.csv $(OUTPUT)/star_rating_summary.xlsx $(OUTPUT)/data_visualization_graphs.pdf 
+all: install.packages $(DATA)/business_data.csv $(DATA)/cleaned_data_for_exploration.csv $(OUTPUT)/star_rating_summary.xlsx $(OUTPUT)/data_visualization_graphs.pdf $(OUTPUT)/data_exploration_merge
 
 install.packages:
 	R --vanilla < 0_Install_Packages.R
@@ -23,3 +23,6 @@ $(OUTPUT)/data_visualization_graphs.pdf: $(DATA)/cleaned_data_for_exploration.cs
 
 $(OUTPUT)/top_20_categories.xlsx: $(DATA)/cleaned_data_for_exploration.csv
 	R --vanilla < 4_Visualization.R
+
+$(OUTPUT)/data_exploration_merged.pdf: 
+	Rscript -e 'rmarkdown::render("DataExploration.Rmd")
