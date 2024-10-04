@@ -41,7 +41,7 @@ If there is a need to download the Yelp dataset used for this research, the data
 ## Research Method
 We are going to analyse the influence of specific business categories on consumer ratings on Yelp. Since the dependent variable, the consumer rating of business measured in stars, is an ordinal variable, we will perform an ANOVA analysis. Firstly, we will recode the variable 'category' into separate dummy variables for each category, indicating whether each business pertains to that category or not (1 if pertains, 0 if not). Then we will design our ANOVA model by regressing the dependent variable 'stars' on all these previously created category dummy variables to find the relative impact of each category on the consumer ratings.
 
-## Relevence
+## Relevance
 The findings of this research have several important implications for marketing strategies. First of all it could enhance customer experience by identifying key drivers of high ratings. Businesses could focus on working towards being part of certain categories that are found to have a high effect on consumer ratings, which will allow for more targeted improvements rather than broad inefficient changes. The insights of this research could also strengthen a company's branding and communication strategy. If specific categories are found to be significantly important for higher consumer ratings, businesses can highlight being part of these categories in their promotional material to attract more consumers.
 
 ## Prediction Model
