@@ -125,8 +125,11 @@ make
 3. The code will run and will generate all output of the data exploration, stored in the folders 'data' and 'gen' in the main directory. Not that, in order to run the analysis makefile seperately, the data preperation makefile should be run first!
 
 ## Authors
-This repository is produced by Team 4 of the course Data Preperation & Workflow Management taught by Hannes Datta at Tilburg University. This course is part of the Master's program Marketing Analytics. The teammembers and authors of this repository:
-- Claudia van Hoof ([c.m.m.vanhoof@tilburguniversity.edu](mailto:c.m.m.vanhoof@tilburguniversity.edu))
-- Beste Özyürekoğlu ([b.ozyurekoglu@tilburguniversity.edu](mailto:b.ozyurekoglu@tilburguniversity.edu))
-- Lucía Ramos Dominguez ([l.ramos@tilburguniversity.edu](mailto:l.ramos@tilburguniversity.edu))
-- Ashley Saarloos ([a.saarloos@tilburguniversity.edu](mailto:a.saarloos@tilburguniversity.edu))
+This repository is produced by Team 4 of the course Data Preparation & Workflow Management taught by Hannes Datta at Tilburg University. This course is part of the Master's program Marketing Analytics. The team members and authors of this repository:
+
+| Author                                      | Contact                                     | 
+|---------------------------------------------|---------------------------------------------|
+| **Claudia van Hoof**                        | c.m.m.vanhoof@tilburguniversity.edu         |
+| **Beste Özyürekoğlu**                       | b.ozyurekoglu@tilburguniversity.edu         |
+| **Lucía Ramos Domínguez**                   | l.ramos@tilburguniversity.edu               |
+| **Ashley Saarloos**                         | a.saarloos@tilburguniversity.edu            |
