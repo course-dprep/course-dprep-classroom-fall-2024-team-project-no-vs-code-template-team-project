@@ -251,20 +251,3 @@ Independent variables:
 summary(lm(averageRating ~ actorExperience + numVotes + genre + startYear_decade, data = data_filtered))
 ```
 
-
-Our regression model looks as follows:
-Dependent variable: 
-- averageRating (IMDb rating of the movie)
-
-Independent variables:
-- actorExperience (the number of films an actor has been in)
-- numVotes (popularity of the movie)
-- genre (movie genre)
-- startYear_decade (the year the movie was made)
-- primaryName (actor identity)
-
-
-```{r}
-summary(lm(averageRating ~ actorExperience + numVotes + genre + startYear_decade + primaryName, data = data_filtered))
-```
-
