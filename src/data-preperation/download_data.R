@@ -1,4 +1,4 @@
-```{r echo=FALSE, warning=FALSE}
+
 url1 <- "https://datasets.imdbws.com/name.basics.tsv.gz"
 url2 <- "https://datasets.imdbws.com/title.ratings.tsv.gz"
 url3 <- "https://datasets.imdbws.com/title.basics.tsv.gz"
@@ -21,4 +21,8 @@ data1 <- read.csv(gzfile(file1), sep = "\t")
 data2 <- read.csv(gzfile(file2), sep = "\t")
 data3 <- read.csv(gzfile(file3), sep = "\t")
 
-```
+# Transform the 'data1' and 'data2' and 'data3' dataframe into a CSV file and save it in the specified directory
+write_csv(data1, "../../data/data1.csv")
+write_csv(data2, "../../data/data2.csv")
+write_csv(data3, "../../data/data3.csv")
+

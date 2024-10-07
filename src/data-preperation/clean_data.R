@@ -77,3 +77,6 @@ data5 <- left_join(data4, cdata1, by = c("tconst"))
 # delete NA's
 data <- na.omit(data5)
 ```
+
+# Write new file with final output data
+write_csv(data,file = "../../gen/output/data.csv")
