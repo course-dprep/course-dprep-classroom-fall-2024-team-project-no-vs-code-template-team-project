@@ -193,10 +193,61 @@ top_movies
 ```
 
 ## Initial Analyses
-
 ```{r}
-summary(lm(averageRating ~ numVotes + genre + startYear, data = data))
+library(dplyr)
 ```
 
 
+Create control variable actorExperience: the number of movies an actor has been involved in
+```{r}
+data <- data %>%
+  group_by(primaryName) %>%
+  mutate(actorExperience = n()) %>%
+  ungroup()
+```
+
+As R is running out of memory while trying to handle a large computation, likely due to the size and structure of our dataset we made a few changes.
+Only include actors with at least 10 movies:
+```{r}
+data_filtered <- data %>%
+  filter(actorExperience >= 10)
+```
+Only include movies with at least 100 number of votes:
+```{r}
+data_filtered <- data_filtered %>%
+  filter(numVotes >= 50000)
+```
+Keep the top 5 genres, lump the other genres into 'other'. 
+```{r}
+#install.packages("forcats")
+library(forcats)
+data_filtered$genre <- fct_lump(data_filtered$genre, n = 5)
+```
+We reduced the magnitude of the startYear variable by grouping it into 10-year intervals (decades)
+```{r}
+data_filtered$startYear <- as.numeric(data_filtered$startYear)
+data_filtered$startYear_decade <- (data_filtered$startYear %/% 10) * 10
+```
+
+Prepare dummy variables for genre, primaryName and startYear. We also drop all the rows that are missing the average Rating.
+```{r}
+data_filtered <- data_filtered %>%
+  mutate(genre = factor(genre), primaryName = factor(primaryName), startYear_decade = factor(startYear_decade)) %>%
+  tidyr::drop_na(averageRating)
+```
+
+Our regression model looks as follows:
+Dependent variable: 
+- averageRating (IMDb rating of the movie)
+
+Independent variables:
+- actorExperience (the number of films an actor has been in)
+- numVotes (popularity of the movie)
+- genre (movie genre)
+- startYear_decade (the year the movie was made)
+
+
+```{r}
+summary(lm(averageRating ~ actorExperience + numVotes + genre + startYear_decade, data = data_filtered))
+```
 
