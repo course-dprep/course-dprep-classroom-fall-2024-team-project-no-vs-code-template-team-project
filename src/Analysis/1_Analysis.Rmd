@@ -8,22 +8,25 @@ output: pdf_document
 ```{r setup, include=FALSE}
 library(readr)
 library(dplyr)
+library(rmarkdown)
+library(evaluate)
 library(data.table)
 library(broom)
 library(knitr)
 library(ggplot2)
+library(effectsize)
 library(emmeans)
 ```
 
-```{r input, include=FALSE, echo=FALSE}
-data <- read_csv('../../data/prepared_data.csv')
-setDT(data)
+```{r input, echo=FALSE}
+prepared_data <- read_csv('../../data/prepared_data.csv')
+setDT(prepared_data)
 ```
 
 # ANOVA Analysis
 Below the final analysis is conducted. We regress the star rating on the ten seperated category dummy variables, using an ANOVA regression. The results of this ANOVA regression can be found below:
 
-```{r analysis, include=TRUE, echo=FALSE}
+```{r analysis, echo = FALSE}
 analysis_aov <- aov(stars ~ dummy_Restaurants + dummy_Shopping + `dummy_Home Service` + `dummy_Beauty & Spas` + `dummy_Health & Medical` + `dummy_Local Service` + dummy_Automotive + `dummy_Active Life` + `dummy_Hotels & Travel` + `dummy_Arts & Entertainment` , data = prepared_data)
 summary(analysis_aov)
 ```
@@ -39,14 +42,14 @@ These results above imply that businesses within some categories do indeed show 
 
 These results, however, do not yet show the direction and magnitude of the findings. In order to find the magnitude of the results, we perform a partial eta-squared analysis. The following resulsts are obtained:
 
-```{r pressure, include=TRUE, echo=FALSE}
-eta_squared(analysis, ci=0.95, partial=TRUE)
+```{r, echo=TRUE}
+eta_squared(analysis_aov, ci=0.95, partial=TRUE)
 ```
 The partial eta-squared results show a limit magnitude for all effects. The business category that show to have the highest difference in star rating are Automotive and Home & Travel. However, since these partial eta-squared are only 0.02, these effects are relatively small. The magnitude of the effects of the other business categories are so small, that these effects are negligible.  
 
 In order to find the actual effects of the business categories we compute a multiple comparisons analysis. Since we already determined that only the Automotive and Home & Travel category have non-negligible results, we will focus on these categories. These are the results of the multiple comparisons analysis for these two business categories:
 
-```{r, include=TRUE, echo=FALSE}
+```{r, echo=FALSE}
 lm <- lm(stars ~ `dummy_Hotels & Travel` * `dummy_Automotive` , data = prepared_data)
 
 hotels_travel = emmeans(lm, pairwise ~ `dummy_Hotels & Travel`, adjust = 'bonferroni')
@@ -62,7 +65,7 @@ For the automotive category, the result are similar. The average star rating wit
 
 # Visualization
 To visualize this result, we created two boxplots that show for each of these business categories, Hotels & Travel and Automotive, the average star rating of businesses within the category versus business outside of the category:
-```{r, include=TRUE, echo=FALSE}
+```{r, echo=FALSE}
 ggplot(prepared_data, aes(x = as.factor(`dummy_Hotels & Travel`), y = stars)) +
   geom_boxplot(fill = "pink") + 
   labs(x = "Hotels & Travel", y = "Stars", title = "Boxplot of Average Star Rating Hotel & Travel") +

@@ -1,7 +1,7 @@
 all: DataPreperation DataExploration Analysis
 
 DataPreperation:
-	make -C src/DataPreperation
+	make -C src/DataPreparation
 
 DataExploration:
 	make -C src/DataExploration
