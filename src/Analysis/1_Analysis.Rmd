@@ -9,7 +9,6 @@ output: pdf_document
 library(readr)
 library(dplyr)
 library(rmarkdown)
-library(evaluate)
 library(data.table)
 library(broom)
 library(knitr)
