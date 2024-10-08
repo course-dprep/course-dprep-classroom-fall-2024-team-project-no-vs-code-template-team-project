@@ -4,14 +4,18 @@ This projects examines the influence of specific business categories on the cons
 ![Alt text](https://business.yelp.com/wp-content/uploads/2021/07/yelp-logo_768x512.png)
 
 ## Research Motivation
-In the digital age, consumer ratings and online reviews have become one of the most influential sources of information in shaping consumer expectations and purchase decisions. This means that in the increasingly competitive digital market it is critical to understand which business categories are drivers for positive and negative consumer ratings. In order to find these categories that are drivers of consumer ratings, we exploit a large open dataset created by Yelp.
+In today's digital landscape, consumer ratings and online reviews are of importance in shaping expectations and driving purchase decisions. As people increasingly rely on online reviews, understanding the business categories that influence positive and negative consumer ratings has become vital for businesses navigating the competitive digital marketplace. By identifying these categories, businesses can refine their offerings to better align with consumer preferences and improve their online reputation. This research leverages a comprehensive open dataset from Yelp, which serves as a major platform where consumers can share experiences and evaluate businesses. With its strong presence across various recreational industries (including restaurants, retail, and services). Yelp has established itself as a trusted source for review-based feedback.
 
-Yelp serves as a public forum where consumers can share their experiences and evaluate business. With Yelp's widespread use in the recreation industries like restaurants, retail, and services, it is one of the top online website consumers visit for a trustworthy review. The dataset of Yelp provides use with various variables (including the name, location, category, attributes, ratings, etc.) of over 150,000 businesses across the United States of America. By analyzing this data we hope to find managerial insights, that will make us understand the importance of specific business categories for the online consumer reviews.
+The Yelp dataset provides a wealth of information on over 150,000 businesses across the United States, capturing details such as business name, location, category, attributes, and consumer ratings, used as variables in this research. By analyzing this extensive dataset, we aim to extract valuable insights into which business categories drive consumer ratings. These insights can empower business managers to adopt a data-driven approach, going beyond anecdotal evidence and moving toward strategic, evidence-based decision-making. This shift aligns with the growing trend of data-driven marketing, where decisions are rooted in robust analysis rather than intuition, further underscoring the importance of data analytics in today’s business environment.
 
-This research emphasizes the importance of using data to drive business decisions, rather than relying on anecdotal feedback or industry trends. This aligns with the growing trend toward data-driven marketing, where decisions are based on hard evidence rather than intuition.
+Several academic studies support the notion that data-driven decision-making can significantly enhance business performance. For instance, McAfee et al. (2012) highlight how data-driven approaches provide businesses with a competitive advantage by facilitating improved decision-making processes. Similarly, Akter and Wamba (2016) emphasize that data analytics can enhance operational efficiency and customer satisfaction in various service industries. Furthermore, Luca (2016) discusses the critical role of online reviews in consumer decision-making and how they can influence a business's financial performance. These studies underscore the need for a nuanced understanding of consumer ratings, and our research aims to contribute to this understanding by focusing on business categories as primary drivers of consumer feedback.
 
 ### Research Question
 *Which business categories drive higher consumer ratings on Yelp in the United States?*
+
+This study aims to identify which business categories drive higher consumer ratings on Yelp in the United States. By examining these categories, the research provides critical insights into consumer expectations, allowing businesses to prioritize specific attributes that resonate with their target audience. For example, restaurants might focus on service and ambiance, while fitness centers may emphasize convenience and accessibility. 
+
+Furthermore, this study supports a data-driven approach to business strategy, leveraging Yelp reviews as a valuable source of information. In an increasingly digital market, understanding category-specific drivers of satisfaction enables businesses to strategically enhance their offerings and improve their online reputations.
 
 ## Data
 The data incorporated in this research is an open dataset provided by Yelp. This dataset includes various business variables, such as names, opening hours, addresses, star reviews, and attributes, of more than 150,000 recreational businesses in the United States of America. These businesses have a extremely broad range of categories, from massage saloons to casinos, and from cheese tastings to tattoo shops. This widespread of types of business allows us to analyse the influence of specific business attributes on consumer ratings on a very broad level. This means that our findings are implementable by a broad range of businesses and industries.
@@ -40,6 +44,10 @@ If there is a need to download the Yelp dataset used for this research, the data
 
 ## Research Method
 We are going to analyse the influence of specific business categories on consumer ratings on Yelp. Since the dependent variable, the consumer rating of business measured in stars, is an ordinal variable, we will perform an ANOVA analysis. Firstly, we will recode the variable 'category' into separate dummy variables for each category, indicating whether each business pertains to that category or not (1 if pertains, 0 if not). Then we will design our ANOVA model by regressing the dependent variable 'stars' on all these previously created category dummy variables to find the relative impact of each category on the consumer ratings.
+
+## Conceptual model 
+
+
 
 ## Relevance
 The findings of this research have several important implications for marketing strategies. First of all it could enhance customer experience by identifying key drivers of high ratings. Businesses could focus on working towards being part of certain categories that are found to have a high effect on consumer ratings, which will allow for more targeted improvements rather than broad inefficient changes. The insights of this research could also strengthen a company's branding and communication strategy. If specific categories are found to be significantly important for higher consumer ratings, businesses can highlight being part of these categories in their promotional material to attract more consumers.
@@ -133,3 +141,8 @@ This repository is produced by Team 4 of the course Data Preparation & Workflow 
 | **Beste Özyürekoğlu**                       | b.ozyurekoglu@tilburguniversity.edu         |
 | **Lucía Ramos Domínguez**                   | l.ramos@tilburguniversity.edu               |
 | **Ashley Saarloos**                         | a.saarloos@tilburguniversity.edu            |
+
+## References 
+- Akter, S., & Wamba, S. F. (2016). Big data analytics in E-commerce: A systematic review and agenda for future research. Electronic Markets, 26(2), 173-194.
+- McAfee, A., Brynjolfsson, E., Davenport, T. H., Patil, D. J., & Barton, D. (2012). Big data. The management revolution. Harvard Business Review, 90(10), 60-68.
+- Luca, M. (2016). Reviews, reputation, and revenue: The case of Yelp.com. Harvard Business School NOM Unit Working Paper, (12-016). 
