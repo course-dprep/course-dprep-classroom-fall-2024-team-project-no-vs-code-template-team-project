@@ -1,40 +1,61 @@
-# Read datasets from specific paths
-
-data1 <- read_csv("../../data/data1.csv")
-data2 <- read_csv("../../data/data2.csv")
-data3 <- read_csv("../../data/data3.csv")
-
-
-# This code filters data1 to include only the rows where the primaryProfession column contains the words "actor" or "actress".
-data1 <-  data1[grepl("actor|actress", data1$primaryProfession), ]
-data3 <- data3[grepl("movie", data3$titleType), ]
-
-
-# removal of unnecessary columns
+# Load packages 
 library(dplyr)
-cdata1 <- data1 %>% select(primaryName, primaryProfession, knownForTitles)
-cdata2 <- data2
-cdata3 <- data3 %>% select(tconst, primaryTitle, startYear, genres)
+library(stringr)
+library(tidyverse)
+library(scales)
 
-library(data.table)
+# Importing the data set 
+data <- read_csv("../../data/data.csv")
 
-# Convert to data.table
-setDT(cdata1)
-setDT(cdata3)
+#Data Exploration
 
-# Split 'knownForTitles' into separate rows
-cdata1 <- cdata1[, .(primaryName, primaryProfession, tconst = unlist(strsplit(knownForTitles, ","))), by = .I]
+#Top 10 Actors by Number of Known Titles
+# Count the number of known titles for each actor
+library(dplyr)
 
-# Split 'genres' into separate rows
-cdata3 <- cdata3[, .(tconst, primaryTitle, startYear, genre = unlist(strsplit(genres, ","))), by = .I]
+top_actors <- data %>%
+  group_by(primaryName) %>%
+  summarise(numTitles = n()) %>%
+  arrange(desc(numTitles)) %>%
+  head(10)
 
-# creating 1 dataset
-data4 <- left_join(cdata2, cdata3, by = "tconst") 
-data5 <- left_join(data4, cdata1, by = c("tconst"))
-```
+# Display the table
+top_actors
 
-# delete NA's
-data <- na.omit(data5)
 
-# Transform all datasets into a CSV file and save it in the specified directory
-write_csv(data, "../../gen/data-preparation/temp/data.csv")
+
+# Bar chart of top 10 actors with the most titles
+library(ggplot2)
+ggplot(top_actors, aes(x = reorder(primaryName, -numTitles), y = numTitles)) +
+  geom_bar(stat = "identity", fill = "pink") +
+  labs(title = "Top 10 Actors by Number of Known Titles", x = "Actor", y = "Number of Titles") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+#IMDb Ratings Distribution
+
+# Create a histogram of IMDb ratings
+ggplot(data, aes(x = averageRating)) +
+  geom_histogram(binwidth = 0.5, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Distribution of IMDb Ratings", x = "Average Rating", y = "Count of Movies") +
+  theme_minimal()
+
+
+
+# Scatter plot of number of votes vs average rating
+ggplot(data, aes(x = numVotes, y = averageRating)) +
+  geom_point(alpha = 0.5, color = "red") +
+  labs(title = "Number of Votes vs IMDb Ratings", x = "Number of Votes", y = "Average Rating") +
+  theme_minimal()
+
+
+# Distribution of IMDb Ratings by Actor
+top_movies <- data %>%
+  group_by(tconst) %>%
+  arrange(desc(averageRating)) %>%
+  head(100)
+
+# Display the table
+top_movies
+
