@@ -1,4 +1,4 @@
-# Ignore specific files
+# Ignore these specific files
 title.basics.tsv.gz
 title.ratings.tsv.gz
 name.basics.tsv.gz
