@@ -6,7 +6,7 @@ DataPreperation:
 DataExploration:
 	make -C src/DataExploration
 
-Analysis: DataPreperation
+Analysis: DataPreparation
 	make -C src/Analysis
 
 clean:
