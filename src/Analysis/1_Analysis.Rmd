@@ -21,6 +21,7 @@ library(emmeans)
 ```{r input, echo=FALSE}
 prepared_data <- read_csv('../../data/prepared_data.csv')
 setDT(prepared_data)
+
 ```
 
 # ANOVA Analysis
