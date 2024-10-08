@@ -12,7 +12,7 @@ dplyr
 tidyr
 gridExtra
 ```
-When they makefile is run, it will automatically download these packages. There is no need to do it manually.
+When the makefile is run, it will automatically download these packages. There is no need to do it manually.
 
 ## 1. Importing Data
 The data is stored in a public Google Drive folder. The following function will open this Google Drive folder and download the data:
