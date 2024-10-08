@@ -19,8 +19,9 @@ $(OUTPUT)/data.csv: data_exploration.R $(TEMP)/data_cleaned.csv
 	R --vanilla < data_exploration.R
 
 $(OUTPUT)/data_exploration.html: data_exploration.Rmd $(OUTPUT)/data.csv render.R 
-	Rscript -e 'rmarkdown::render("data_exploration.Rmd", output_dir = "$(OUTPUT)")'
+	Rscript -e "rmarkdown::render('data_exploration.Rmd', output_dir = '../../gen/data-preparation/output')"
 
+	
 clean:
 	R -e "unlink('*.pdf')"
 	R -e "unlink('*.html')"
