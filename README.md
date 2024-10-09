@@ -24,10 +24,20 @@ The number of movies an actor is known for (knownForTitles), can be used to asse
 Control Variables:
 NumVotes (Popularity Measure): The number of votes a movie receives (numVotes) can be an indicator of its visibility and popularity. Since more popular movies often have higher ratings, controlling for numVotes ensures that the analysis focuses on the actor's influence on the averageRating rather than how well-known the movie is.
 
-| Variable      | Description                     | Data class | 
-|---------------|:-------------------------------:|-----------:|
-| Actor         | The name of the Actor           | character  |
-etc.
+| Variable            | Description                     
+|---------------------|:-------------------------------------------------------
+| tconst              | Unique title identifier         
+| averagRating        | Weighted average rating of all individual user ratings
+| numVotes            | NUmber of votes a title has received 
+| l.x                 | ???  
+| primaryTitle        | Unique title identifier         
+| startYear           | Weighted average rating of all individual user ratings
+| genre               | NUmber of votes a title has received 
+| l.y                 | ???  
+| primaryName         | Unique title identifier         
+| primaryProfession   | Weighted average rating of all individual user ratings
+| actorExperience     | Number of movies an actor has been in
+
 
 ## Results
 The results of the analyses performed in this research confirm...
