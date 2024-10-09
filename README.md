@@ -32,7 +32,7 @@ NumVotes (Popularity Measure): The number of votes a movie receives (numVotes) c
 | l.x                 | ???  
 | primaryTitle        | Unique title identifier         
 | startYear           | Weighted average rating of all individual user ratings
-| genre               | NUmber of votes a title has received 
+| genre               | Number of votes a title has received 
 | l.y                 | ???  
 | primaryName         | Unique title identifier         
 | primaryProfession   | Weighted average rating of all individual user ratings
