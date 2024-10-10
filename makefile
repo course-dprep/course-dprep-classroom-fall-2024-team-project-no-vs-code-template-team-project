@@ -6,7 +6,7 @@ data-preparation:
 data-analysis:
 	make -C src/analysis
 
-paper:
+finalpdf:
 	make -C src/finalpdf
 
 clean: 
