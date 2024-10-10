@@ -1,9 +1,0 @@
-# Ignore these specific files
-*.pdf
-*.png
-title.basics.tsv.gz
-title.ratings.tsv.gz
-name.basics.tsv.gz
-.DS_Store
-
-
