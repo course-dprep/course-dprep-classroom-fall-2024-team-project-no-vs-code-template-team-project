@@ -1,7 +1,7 @@
 all: data-preparation data-analysis finalpdf
 
 data-preparation:
-	make -C src/data_preparation
+	make -C src/data-preparation
 
 data-analysis:
 	make -C src/analysis
