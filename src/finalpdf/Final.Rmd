@@ -1,0 +1,189 @@
+---
+title: "Group Assignment Skills: Data Prep.&Workflow Mgt"
+author: "Team 5"
+date: "2024-09-06"
+output:
+  pdf_document: default
+---
+
+## Team 5
+#Sophie van Hest
+#Eveline Cai
+#Mette Swanenberg
+#Tyamo van der Ceelen
+
+## Research Motivation
+
+Our research question is: **Does an actor influence IMDb popularity ratings of a movie?**
+By examining the impact of A-list actors, particularly award winners, on IMDb ratings, this study explores:
+- How casting major stars boosts a film’s visibility and box office success.
+- Whether well-known actors can raise audience interest and market expectations.
+- How star power influences consumer behavior, especially on streaming platforms.
+This research aims to guide production and marketing strategies by understanding the role of star actors in driving both film success and audience ratings.
+
+## Data
+Data1 includes:
+
+- nconst (string) - alphanumeric unique identifier of the name/person
+- primaryName (string)– name by which the person is most often credited
+- birthYear – in YYYY format
+- deathYear – in YYYY format if applicable, else N
+- primaryProfession (array of strings)– the top-3 professions of the person
+- knownForTitles (array of tconsts) – titles the person is known for
+
+Data2 includes:
+
+- tconst (string) - alphanumeric unique identifier of the title
+- averageRating – weighted average of all the individual user ratings
+- numVotes - number of votes the title has received
+
+Data3 includes:
+- tconst (string) - alphanumeric unique identifier of the title
+- titleType (string) – the type/format of the title (e.g. movie, short, tvseries, tvepisode, video, etc)
+- primaryTitle (string) – the more popular title / the title used by the filmmakers on promotional materials    at the point of release
+- originalTitle (string) - original title, in the original language
+- isAdult (boolean) - 0: non-adult title; 1: adult title
+- startYear (YYYY) – represents the release year of a title. In the case of TV Series, it is the series start     year
+- endYear (YYYY) – TV Series end year. N for all other title types
+- runtimeMinutes – primary runtime of the title, in minutes
+- genres (string array) – includes up to three genres associated with the title
+
+```{r include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = TRUE)
+```
+
+```{r include=FALSE}
+# Load packages
+library(stringr)
+library(tidyverse)
+```
+
+```{r include=FALSE}
+# Importing the dataset 
+data <- read_csv("../../data/data.csv")
+```
+
+#Data Exploration
+1. Table: Top 10 Actors by Number of Known Titles
+This table displays the top 10 actors with the highest number of known titles in the dataset. By analyzing the most prolific actors, we can gain insight into which individuals have had extensive careers and whether their volume of work correlates with other factors, such as IMDb ratings or votes. Understanding which actors dominate the dataset in terms of movie credits helps frame further exploration of the relationship between star power and a film's success.
+```{r}
+#Top 10 Actors by Number of Known Titles
+# Count the number of known titles for each actor
+library(dplyr)
+
+top_actors <- data %>%
+  group_by(primaryName) %>%
+  summarise(numTitles = n()) %>%
+  arrange(desc(numTitles)) %>%
+  head(10)
+
+# Display the table
+top_actors
+
+```
+2. Bar Chart: Top 10 Actors with the Most Titles
+The bar chart visualizes the top 10 actors with the most known titles, providing a comparative view of their careers. Presenting this data graphically makes it easier to compare the number of titles and quickly spot outliers. This visualization is important for identifying whether actors with higher visibility—based on the sheer number of movie credits—tend to influence box office success or audience engagement more significantly.
+```{r}
+# Bar chart of top 10 actors with the most titles
+library(ggplot2)
+ggplot(top_actors, aes(x = reorder(primaryName, -numTitles), y = numTitles)) +
+  geom_bar(stat = "identity", fill = "pink") +
+  labs(title = "Top 10 Actors by Number of Known Titles", x = "Actor", y = "Number of Titles") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+3. Histogram: IMDb Ratings Distribution
+This histogram illustrates the distribution of IMDb ratings for all movies in the dataset, showing how ratings are spread across various films. This analysis is essential for understanding overall rating trends and user perceptions. It helps us observe whether movie ratings cluster around certain values (e.g., high or low ratings) and can indicate broader audience reception patterns. By understanding the distribution, we can also identify whether there is a bias in how users rate movies.
+```{r}
+#IMDb Ratings Distribution
+
+# Create a histogram of IMDb ratings
+ggplot(data, aes(x = averageRating)) +
+  geom_histogram(binwidth = 0.5, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Distribution of IMDb Ratings", x = "Average Rating", y = "Count of Movies") +
+  theme_minimal()
+
+```
+4. Scatter Plot: Number of Votes vs. Average Rating
+The scatter plot investigates the relationship between the number of votes a movie has received and its average IMDb rating. This visualization is crucial for identifying potential correlations between a movie’s popularity (in terms of votes) and its overall rating. It helps us explore whether more popular movies (those with more votes) are rated higher or whether large vote counts tend to normalize or dilute a movie’s rating. This analysis is essential for understanding the impact of audience engagement on film ratings.
+```{r}
+# Scatter plot of number of votes vs average rating
+ggplot(data, aes(x = numVotes, y = averageRating)) +
+  geom_point(alpha = 0.5, color = "red") +
+  labs(title = "Number of Votes vs IMDb Ratings", x = "Number of Votes", y = "Average Rating") +
+  theme_minimal()
+
+```
+5. Table: Top 10 Highest Rated Movies
+This table lists the top 10 highest-rated movies based on IMDb ratings. Analyzing the highest-rated films allows us to explore common characteristics, such as genre, cast, or runtime, that may contribute to their high ratings. This information provides valuable insights into what factors drive critical success and can inform decisions on casting, production, and marketing strategies to replicate similar success in future projects.
+```{r}
+# Distribution of IMDb Ratings by Actor
+top_movies <- data %>%
+  group_by(tconst) %>%
+  arrange(desc(averageRating)) %>%
+  head(100)
+
+# Display the table
+top_movies
+
+```
+
+## Initial Analyses
+```{r}
+library(dplyr)
+```
+
+
+Create control variable actorExperience: the number of movies an actor has been involved in
+```{r}
+data <- data %>%
+  group_by(primaryName) %>%
+  mutate(actorExperience = n()) %>%
+  ungroup()
+```
+
+As R is running out of memory while trying to handle a large computation, likely due to the size and structure of our dataset we made a few changes.
+Only include actors with at least 10 movies:
+```{r}
+data_filtered <- data %>%
+  filter(actorExperience >= 10)
+```
+Only include movies with at least 100 number of votes:
+```{r}
+data_filtered <- data_filtered %>%
+  filter(numVotes >= 50000)
+```
+Keep the top 5 genres, lump the other genres into 'other'. 
+```{r}
+#install.packages("forcats")
+library(forcats)
+data_filtered$genre <- fct_lump(data_filtered$genre, n = 5)
+```
+We reduced the magnitude of the startYear variable by grouping it into 10-year intervals (decades)
+```{r}
+data_filtered$startYear <- as.numeric(data_filtered$startYear)
+data_filtered$startYear_decade <- (data_filtered$startYear %/% 10) * 10
+```
+
+Prepare dummy variables for genre, primaryName and startYear. We also drop all the rows that are missing the average Rating.
+```{r}
+data_filtered <- data_filtered %>%
+  mutate(genre = factor(genre), primaryName = factor(primaryName), startYear_decade = factor(startYear_decade)) %>%
+  tidyr::drop_na(averageRating)
+```
+
+Our regression model looks as follows:
+Dependent variable: 
+- averageRating (IMDb rating of the movie)
+
+Independent variables:
+- actorExperience (the number of films an actor has been in)
+- numVotes (popularity of the movie)
+- genre (movie genre)
+- startYear_decade (the year the movie was made)
+
+
+```{r}
+summary(lm(averageRating ~ actorExperience + numVotes + genre + startYear_decade, data = data_filtered))
+```
+
