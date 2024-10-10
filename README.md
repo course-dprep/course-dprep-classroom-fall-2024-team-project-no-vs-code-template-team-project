@@ -48,9 +48,9 @@ The results of the analyses performed in this research confirm...
    └── .gitignore
 ├── gen
    ├── data-analysis/output
-       └──.gitignore
    └── data-preparation/output
-       └──.gitignore
+   └── final_report/output
+   └──.gitignore
 ├── src
    ├── analysis
        ├── analyse.R
@@ -68,6 +68,7 @@ The results of the analyses performed in this research confirm...
        ├── merge_data.R
        ├── remove_variables.R
        └── render.R
+   └── finalpdf
 ├── LICENSE
 ├── README.md
 ├── makefile
