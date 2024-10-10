@@ -56,7 +56,8 @@ The results of the analyses performed in this research confirm...
        ├── analyse.R
        ├── data_analysis.Rmd
        └── makefile
-   └── paper
+   └── data-preparation
+       ├── figures
        ├── .gitignore
        ├── clean_dataR
        ├── data_exploration.R
@@ -68,8 +69,8 @@ The results of the analyses performed in this research confirm...
        ├── remove_variables.R
        └── render.R
    └── finalpdf
-      ├── Final.Rmd
-      ├── makefile
+       ├── Final.Rmd
+       └── makefile
 ├── LICENSE
 ├── README.md
 ├── makefile
