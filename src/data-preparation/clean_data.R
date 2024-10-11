@@ -33,3 +33,11 @@ write_csv(cdata1, "../../data/cdata1.csv")
 write_csv(cdata2, "../../data/cdata2.csv")
 write_csv(cdata3, "../../data/cdata3.csv")
 
+
+# Read datasets from specific paths
+
+cdata1 <- read_csv("../../data/cdata1.csv")
+cdata2 <- read_csv("../../data/cdata2.csv")
+cdata3 <- read_csv("../../data/cdata3.csv")
+
+
