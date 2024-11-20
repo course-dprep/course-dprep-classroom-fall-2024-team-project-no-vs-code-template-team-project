@@ -1,0 +1,68 @@
+---
+title: "ProjectVersion1"
+author: "Group 9"
+date: "2024-09-11"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+```
+
+
+```{r}
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(stringr)
+library(car)
+library(data.table)
+library(readxl)
+```
+
+```{r}
+urls = c('https://datasets.imdbws.com/title.episode.tsv.gz', 'https://datasets.imdbws.com/title.ratings.tsv.gz', 'https://datasets.imdbws.com/title.basics.tsv.gz')
+
+datasets <- lapply(urls, read_delim, delim='\t', na = '\\N')
+episode <- datasets[[1]]
+ratings <- datasets[[2]]
+titles <- datasets[[3]]
+```
+
+```{r}
+str(episode)
+summary(episode)
+```
+```{r, echo=FALSE}
+# The 'title.ratings' dataset
+str(ratings)
+summary(ratings)
+knitr::kable(head(ratings), caption = "First few rows of 'title.ratings' dataset", escape = TRUE)
+
+```
+
+```{r}
+# Boxplot of the average ratings
+boxplot(ratings$averageRating)
+```
+
+	
+ 
+```{r, echo=FALSE}
+# Variable Definitions for 'title.episode'
+ 
+knitr::kable(data.frame(Variable = c("tconst", "parentTconst", "seasonNumber", "episodeNumber"),
+    Definition = c("Unique identifier for the title", "Identifier of the parent title (e.g., the series for an episode)",  "Season number of the episode", "Episode number in the season")), caption = "Variable Definitions for 'title.episode' Dataset", escape = TRUE)
+```
+
+```{r, echo=FALSE}
+# Variable Definitions for 'title.ratings'
+knitr::kable(
+  data.frame(
+    Variable = c("tconst", "averageRating", "numVotes"),
+    Definition = c("Unique identifier for the title", 
+                   "Average rating of the title", 
+                   "Number of votes received for the title")),caption = "Variable Definitions for 'title.ratings' Dataset", escape = TRUE)
+```
+
