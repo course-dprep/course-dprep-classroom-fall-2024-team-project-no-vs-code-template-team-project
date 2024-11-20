@@ -1,0 +1,186 @@
+---
+title: "Data preparation"
+output: pdf_document
+date: "2024-09-17"
+---
+
+```{r}
+
+install.packages("googledrive")
+install.packages("tidyverse")
+install.packages("dplyr")
+install.packages("data.table")
+install.packages("jsonlite")
+install.packages("strngr")
+```
+
+```{r}
+library(googledrive)
+library(tidyverse)
+library(dplyr)
+library(data.table)
+library(jsonlite)
+library(stringr)
+```
+
+
+```{r}
+
+#Acces to the drive without authentication
+drive_deauth()
+
+# Folder ID from your Google Drive link
+folder_id <- "1ioJVCsr5pJ5tAa2dPJ9yxIvL6rYmDSl1"
+
+# List all files in the folder
+files_in_folder <- drive_ls(as_id(folder_id))
+
+# Filter for the file named 'yelp_academic_dataset_business.csv'
+csv_file <- files_in_folder[files_in_folder$name == "yelp_academic_dataset_business.csv", ]
+
+# Check if the file exists before attempting download
+if (nrow(csv_file) > 0) {
+  # Download the CSV file to the working directory
+  drive_download(as_id(csv_file$id), path = file.path(getwd(), "yelp_academic_dataset_business.csv"), overwrite = TRUE)
+  cat("File downloaded successfully.")
+} else {
+  cat("The file 'yelp_academic_dataset_business.csv' was not found in the folder.")
+}
+
+```
+
+```{r}
+business <- read_csv("yelp_academic_dataset_business.csv")
+
+```
+
+
+```{r exploring the data like class etc. }
+
+# Quick view of the data
+head(business$hours)
+tail(business)
+colnames(business)
+summary(business)
+
+```
+
+```{r}
+
+#remove the columns that is not needed for the research
+
+business <- business %>% select(-latitude, -longitude, -hours)
+
+#rearrange the columns in a logical order
+
+business <- business %>% select(business_id, name, is_open ,address, postal_code, city, state, categories, review_count, stars, attributes)
+
+```
+
+```{r}
+# Create a dummy variable to see if it is open / yes or no
+
+business$dummy_open <- business$is_open == 1
+
+# We want to delete the rows that have the value FALSE / 0
+
+business <- business %>% filter(business$dummy_open == TRUE)
+
+business$dummy_open <- NULL
+
+```
+
+```{r}
+# Find out which columns have NAs
+na_count <- colSums(is.na(business))
+print(na_count)
+
+# Remove NAs from the necessary columns
+
+business <- business %>%
+   filter(!is.na(address) & !is.na(postal_code) & !is.na(attributes))
+
+```
+
+```{r}
+# We have to take in consideration when we can say that a review is valid.
+# we have to set a banchmark to in our dataset to know what values are valid. 
+
+length(which(business$review_count >= 50))
+#output = 23.396
+
+length(which(business$review_count < 50))
+
+#output = 96.302
+
+# Work out the dataset to filter this data
+
+business <- business %>% filter(review_count >= 50)
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+#Working on the attribute column to parse the attributes and create the dummy variables for them 
+
+# Function to parse the attribute string into a named list
+parse_attributes <- function(attr_string) {
+  # Clean the string to make it valid JSON syntax
+  cleaned_string <- gsub("u'", "'", attr_string)  # Remove the 'u' prefix
+  cleaned_string <- gsub("'", "\"", cleaned_string)  # Replace single quotes with double quotes
+  cleaned_string <- gsub("\\\\\"", "\"", cleaned_string)  # Remove escape characters before quotes
+  cleaned_string <- gsub('"(True|False)"', '\\L\\1', cleaned_string, perl = TRUE)  # Convert "True"/"False" to lowercase
+  cleaned_string <- gsub(": None", ": null", cleaned_string)  # Replace None with null
+  
+  # Remove any invalid escaping inside JSON strings
+  cleaned_string <- gsub('(?<=:)\\s*""(.*?)""', '"\\1"', cleaned_string, perl = TRUE)
+  
+  # Ensure the string is enclosed in curly braces
+  cleaned_string <- paste0("{", str_remove_all(cleaned_string, "^\\{|\\}$"), "}")
+  
+  # Attempt to parse the string into a list
+  parsed_list <- tryCatch(fromJSON(cleaned_string), error = function(e) NULL)
+  
+  return(parsed_list)
+}
+
+# Apply the parse_attributes function to each row and convert to a dataframe
+parsed_attributes <- business %>%
+  mutate(attributes_list = lapply(attributes, parse_attributes)) %>%
+  unnest_wider(attributes_list)
+
+# Display the resulting dataframe
+parsed_attributes
+
+```
+
+```{r}
+# Transform attribute variables into dummy variables
+# Changing all new attribute columns to character variables
+parsed_attributes <- parsed_attributes %>% mutate(across(12:42, as.character))
+summary(parsed_attributes)
+
+# Changing all character NULL and FALSE into 0 and TRUE into 1
+business_prep <- parsed_attributes %>% mutate(across(12:42, 
+                ~ recode(., 'NULL' = '0', 'FALSE' = '0', 'None' = '0', 'none' = '0', 'TRUE' = '1', 'free' = '1', 
+                  'beer_and_wine' = '1', 'full_bar' = '1', 'casual' = '1')))
+
+# Changing the name of the WiFi attribute to FreeWifi and RestaurantAttire to RestaurantCasualAttire
+names(business_prep)[names(business_prep) == 'WiFi'] <- 'FreeWiFi'
+names(business_prep)[names(business_prep) == 'RestaurantAttire'] <- 'RestaurantCasualAttire'
+
+# Changing all NAs into 0 (since all NAs in the rest of the dataset are previously deleted, this is not a problem)
+business_prep[is.na(business_prep)] <- '0'
+
+# Printing the number of 1s per attributes to see how many business possess each attribute
+attributes_freq <- business_prep %>% select(12:42) %>% summarise(across(everything(), 
+                    ~sum(. == "1"), .names = "{col}_1"))
+
+print(attributes_freq)
+```
+
