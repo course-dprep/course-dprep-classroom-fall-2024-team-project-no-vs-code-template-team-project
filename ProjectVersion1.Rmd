@@ -1,0 +1,126 @@
+---
+title: "ProjectVersion1"
+author: "Group 9"
+date: "2024-09-11"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+```
+
+
+```{r}
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(stringr)
+library(car)
+library(data.table)
+library(readxl)
+```
+
+
+```{r}
+urls = c('https://datasets.imdbws.com/title.episode.tsv.gz', 'https://datasets.imdbws.com/title.ratings.tsv.gz','https://datasets.imdbws.com/title.basics.tsv.gz')
+
+datasets <- lapply(urls, read_delim, delim='\t', na = '\\N')
+episode <- datasets[[1]]
+ratings = datasets[[2]]
+titles <- datasets[[3]]
+```
+```{r}
+## Research question
+# Does the number of episodes significantly influence the ratings of TV shows?
+
+## Research Motivation
+# This research question is relevant because it allows filmmakers and marketers to understand the key factors influencing TV shows ratings, leading to a better benchmarking and decision-making in their marketing strategies. With this information, filmmakers can make better decisions in the number of episodes they are producing. Furthermore, IMDb can improve its recommendation system, offering more personalized movie recommendations, making it easier for users to find movies they will enjoy.
+
+The appropriate method for this research is a multiple regression analysis. The multiple regression analysis shows how several independent variables influence the dependent variable. Additionally the multiple regression is convenient to interpret. With this type of analysis it can be determined how much each independent variable influences the dependent variable ratings and which independent variable influences the ratings most significantly.
+
+# 2. Data preparation & analysis
+## 2.1 Data exploration
+
+#This section explores the IMDb datasets and provide an overview of the datasets, the definitions of the variables and figures.
+```
+```{r, echo=FALSE}
+# The 'episode' dataset
+
+```{r echo=FALSE}
+str(episode)
+summary(episode)
+knitr::kable(head(episode), caption = "First few rows of 'title.episode' dataset", escape = TRUE)
+
+```
+
+```{r, echo=FALSE}
+# Variable Definitions for 'episode'
+knitr::kable(
+  data.frame(
+    Variable = c("tconst", "parentTconst", "seasonNumber", "episodeNumber"),
+    Definition = c("Unique identifier for the title", 
+                   "Identifier of the parent title (e.g., the series for an episode)", 
+                   "Season number of the episode", 
+                   "Episode number in the seasons")
+
+  ),
+  caption = "Variable Definitions for 'title.episode' Dataset", escape = TRUE
+)
+
+```
+
+```{r, echo=FALSE}
+# The 'title.ratings' dataset
+str(ratings)
+summary(ratings)
+knitr::kable(head(ratings), caption = "First few rows of 'title.ratings' dataset", escape = TRUE)
+
+```
+```{r, echo=FALSE}
+# Variable Definitions for 'title.ratings'
+knitr::kable(
+  data.frame(
+    Variable = c("tconst", "averageRating", "numVotes"),
+    Definition = c("Unique identifier for the title", 
+                   "Average rating of the title", 
+                   "Number of votes received for the title")
+  ),
+  caption = "Variable Definitions for 'title.ratings' Dataset", escape = TRUE
+)
+```
+```{r}
+# Boxplot of the average ratings
+boxplot(ratings$averageRating)
+```
+
+```{r, echo=FALSE}
+# The 'title.basics' dataset
+str(titles)
+summary(titles)
+knitr::kable(head(titles), caption = "First few rows of 'titles' dataset", escape = TRUE)
+
+```
+
+
+
+
+```{r, echo=FALSE}
+# Variable Definitions for 'titles'
+knitr::kable(
+  data.frame(
+    Variable = c("tconst", "titleType", "primaryTitle", "originalTitle", "isAdult", "startYear", "endYear", "runtimeMinutes", "genres"),
+    Definition = c("Unique identifier for the title", 
+                   "Type of the title (e.g., movie, short, TV episode)", 
+                   "Primary title of the work", 
+                   "Original title of the work", 
+                   "Adult content flag (0: non-adult, 1: adult)", 
+                   "Release year or start year for series", 
+                   "End year for series", 
+                   "Runtime in minutes", 
+                   "Genres associated with the title")
+  ),
+  caption = "Variable Definitions for 'titles' Dataset", escape = TRUE
+)
+```
+
