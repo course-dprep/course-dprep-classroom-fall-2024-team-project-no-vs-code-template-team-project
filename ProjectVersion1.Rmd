@@ -1,0 +1,175 @@
+---
+title: "Data preparation"
+author: "Group 9"
+date: "2024-09-11"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+```
+
+
+```{r echo=FALSE, warning=FALSE, include = FALSE}
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(stringr)
+library(car)
+library(data.table)
+library(readxl)
+```
+
+
+```{r warning=FALSE, include = FALSE}
+# Loading the datasets
+
+urls = c('https://datasets.imdbws.com/title.episode.tsv.gz', 'https://datasets.imdbws.com/title.ratings.tsv.gz','https://datasets.imdbws.com/title.basics.tsv.gz')
+
+datasets <- lapply(urls, read_delim, delim='\t', na = '\\N')
+episode <- datasets[[1]]
+ratings = datasets[[2]]
+titles <- datasets[[3]]
+```
+
+
+
+# Research question
+
+Does the number of episodes significantly influence the ratings of TV shows?
+
+## Research Motivation
+
+With this research, we aim to explore the factors influencing TV show ratings to provide valuable insights for content creators, streaming platforms, and marketers. Understanding these factors can enhance content strategies, optimize recommendations, and improve user experience. Specifically, this research seeks to determine whether viewers prefer binge-watching shorter series or are more engaged with longer ones, suggesting an ideal number of episodes for a TV show.
+
+#To explore these relationships, regression analysis will be used as the primary research method. This approach is ideal for quantifying the relationship between a dependent variable (TV show ratings) and an independent variable (number of episodes). By applying this method, we can measure how changes in the number of episodes impact ratings and determine the strength of this effect. Regression is especially well-suited for this research question because it reveals both the strength and direction of the relationship between the number of episodes and TV show ratings. It also strengthens the analysis by considering other variables, ensuring that the link between episode count and ratings isn’t influenced by unrelated factors.
+
+# 2. Data preparation
+
+## 2.1 Data exploration
+
+This section explores the IMDb datasets and provide an overview of the datasets, the definitions of the variables and figures.
+
+```{r, echo=FALSE, include=FALSE, message=FALSE, warning=FALSE}
+str(episode)
+```
+
+```{r table, echo=FALSE}
+#The 'title.episode' dataset
+knitr::kable(head(episode), caption = "First few rows of 'title.episode' dataset", escape = TRUE)
+```
+
+
+```{r, echo=FALSE}
+# Variable Definitions for 'episode'
+knitr::kable(
+  data.frame(
+    Variable = c("tconst", "parentTconst", "seasonNumber", "episodeNumber"),
+    Definition = c("Unique identifier for the title", 
+                   "Identifier of the parent title (e.g., the series for an episode)", 
+                   "Season number of the episode", 
+                   "Episode number in the seasons")
+
+  ),
+  caption = "Variable Definitions for 'title.episode' Dataset", escape = TRUE
+)
+
+```
+```{r, echo = FALSE}
+boxplot(episode$episodeNumber, main = "Boxplot of the number of episodes")
+```
+
+```{r, echo = FALSE, include=FALSE, message=FALSE, warning=FALSE}
+str(ratings)
+```
+
+
+```{r table2, echo = FALSE}
+#The 'title.ratings' dataset
+knitr::kable(head(ratings), caption = "First few rows of 'title.ratings' dataset", escape = TRUE)
+```
+
+
+```{r, echo=FALSE}
+# Variable Definitions for 'title.ratings'
+knitr::kable(
+  data.frame(
+    Variable = c("tconst", "averageRating", "numVotes"),
+    Definition = c("Unique identifier for the title", 
+                   "Average rating of the title", 
+                   "Number of votes received for the title")
+  ),
+  caption = "Variable Definitions for 'title.ratings' Dataset", escape = TRUE
+)
+```
+```{r, echo = FALSE}
+boxplot(ratings$averageRating, main = "Boxplot of the average ratings")
+```
+
+
+```{r, echo=FALSE, include=FALSE, message=FALSE, warning=FALSE}
+str(titles)
+```
+
+
+```{r table3, echo=FALSE}
+# The 'title.basics' dataset
+knitr::kable(head(titles), caption = "First few rows of 'titles' dataset", escape = TRUE)
+```
+
+
+
+```{r, echo=FALSE}
+# Variable Definitions for 'titles'
+knitr::kable(
+  data.frame(
+    Variable = c("tconst", "titleType", "primaryTitle", "originalTitle", "isAdult", "startYear", "endYear", "runtimeMinutes", "genres"),
+    Definition = c("Unique identifier for the title", 
+                   "Type of the title (e.g., movie, short, TV episode)", 
+                   "Primary title of the work", 
+                   "Original title of the work", 
+                   "Adult content flag (0: non-adult, 1: adult)", 
+                   "Release year or start year for series", 
+                   "End year for series", 
+                   "Runtime in minutes", 
+                   "Genres associated with the title")
+  ),
+  caption = "Variable Definitions for 'titles' Dataset", escape = TRUE
+)
+```
+
+# 2.2 Data cleaning
+Since there is not a dataset available which includes the number of episodes and ratings of TV shows there needs to be new dataset created from different datasets. Before the datasets are merged the datasets needs to be cleaned. To answer the research question, the variables “Number of episodes” and “The average rating” should not contain NAs. Furthermore, some variable names are changed to make them more readable.
+```{r}
+#Cleaning the episode dataset
+episode = episode %>% filter(!is.na(episodeNumber))
+episode = episode %>% rename("Number of the season" = "seasonNumber", "Number of episodes" = "episodeNumber")
+
+```
+
+```{r}
+#Cleaning the ratings dataset
+ratings = ratings %>% filter(!is.na(averageRating)) %>% rename("The average rating" = "averageRating", "Amount of votes" = "numVotes")
+```
+
+```{r}
+#Cleaning the titles dataset
+titles = titles %>% filter(titleType == "tvEpisode") 
+```
+
+```{r}
+#Merging the datasets
+test = right_join(episode, ratings, by = "tconst")
+IMDb_dt = inner_join(test, titles, by = "tconst")
+```
+
+```{r}
+#Creating new variables
+
+IMDb_dt <-  IMDb_dt %>% mutate(popularity = ifelse(`Amount of votes` > 1000, 1, 0))
+IMDb_dt <- IMDb_dt %>% mutate(runtime = ifelse(runtimeMinutes > 50, "long", "short"))
+IMDb_dt <- IMDb_dt %>% mutate(new_vs_old = ifelse(startYear > 2015, "new", "old"))
+IMDb_dt <- IMDb_dt %>% mutate(episode_quantity = ifelse(`Number of episodes` > 25, "Many", "Few"))
+```
+
